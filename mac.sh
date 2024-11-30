@@ -46,17 +46,24 @@ brew install docker docker-compose docker-machine xhyve docker-machine-driver-xh
 # Install code editing tools
 brew install jetbrains-toolbox pycharm webstorm rustrover
 
-# Install document editing tools
-brew install microsoft-word microsoft-excel microsoft-powerpoint
-
 # Install file and project management
 brew install box-drive github
 
 # Install collaboration tools
-brew install slack microsoft-teams zoomus whatsapp
+brew install microsoft-teams zoomus
 
-# Cleanup
-brew cleanup
+###############################################################################
+###################### Install from App Store #################################
+###############################################################################
+
+# Install document editing tools
+mas install 462054704 # Microsoft Word
+mas install 462058435 # Microsoft Excel
+mas install 462062816 # Microsoft PowerPoint
+
+# Install collaboration tools
+mas install 803453959 # Slack
+mas install 310633997 # WhatsApp
 
 
 ###############################################################################
@@ -459,3 +466,11 @@ defaults write com.apple.commerce AutoUpdate -bool true
 
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+
+###############################################################################
+######################## Cleanup and Shutdown #################################
+###############################################################################
+
+# Cleanup
+brew cleanup
