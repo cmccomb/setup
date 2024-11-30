@@ -85,7 +85,7 @@ dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
 #############################  General UI/UX  #################################
 ###############################################################################
 
-# Set computer name (as done via System Preferences → Sharing)
+# TODO: Set computer name (as done via System Preferences → Sharing)
 #sudo scutil --set ComputerName "0x6D746873"
 #sudo scutil --set HostName "0x6D746873"
 #sudo scutil --set LocalHostName "0x6D746873"
@@ -97,7 +97,7 @@ sudo nvram SystemAudioVolume=" "
 # Disable transparency in the menu bar and elsewhere on Yosemite
 defaults write com.apple.universalaccess reduceTransparency -bool true
 
-# Set highlight color to green
+# TODO: Set highlight color to green
 #defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
 # Set sidebar icon size to medium
@@ -137,10 +137,11 @@ defaults write com.apple.helpviewer DevMode -bool true
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
-# Disable Notification Center and remove the menu bar icon
+# TODO: Disable Notification Center and remove the menu bar icon
 #launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
-# Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
+# TODO: Set a custom wallpaper image.
+# `DefaultDesktop.jpg` is already a symlink, and
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
 #rm -rf ~/Library/Application Support/Dock/desktoppicture.db
 #sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
@@ -247,25 +248,25 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-## Show item info near icons on the desktop and in other icon views
+## TODO: Show item info near icons on the desktop and in other icon views
 #/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 #
-## Show item info to the right of the icons on the desktop
+## TODO: Show item info to the right of the icons on the desktop
 #/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
 #
-## Enable snap-to-grid for icons on the desktop and in other icon views
+## TODO: Enable snap-to-grid for icons on the desktop and in other icon views
 #/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 #
-## Increase grid spacing for icons on the desktop and in other icon views
+## TODO: Increase grid spacing for icons on the desktop and in other icon views
 #/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 #
-## Increase the size of icons on the desktop and in other icon views
+## TODO: Increase the size of icons on the desktop and in other icon views
 #/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
 #/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist
@@ -290,8 +291,6 @@ defaults write com.apple.dock mineffect -string "scale"
 # Minimize windows into their application’s icon
 defaults write com.apple.dock minimize-to-application -bool true
 
-## Show indicator lights for open applications in the Dock
-#defaults write com.apple.dock show-process-indicators -bool false
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
 
@@ -394,9 +393,7 @@ defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 ################################ Spotlight #####################################
 ################################################################################
 
-# Disable Spotlight indexing for any volume that gets mounted and has not yet
-# been indexed before.
-# Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
+# Disable Spotlight indexing for any volume that gets mounted and has not yet been indexed before.
 sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
 # Change indexing order and disable some search results
