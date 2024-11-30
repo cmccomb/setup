@@ -19,7 +19,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # Install xcode things
-sudo xcodebuild -license
 xcode-select --install
 
 
@@ -38,23 +37,26 @@ brew update
 brew upgrade
 
 # Install utilities
-sudo brew install wget tree htop trash
+brew install wget tree htop trash
 
 # Install Docker and associated tools
-sudo brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve
+brew install docker --cask
 
 # Install code editing tools
-sudo brew install jetbrains-toolbox pycharm webstorm rustrover
+brew install jetbrains-toolbox pycharm webstorm rustrover --cask
 
 # Install file and project management
-sudo brew install box-drive github
+brew install box-drive github
 
 # Install collaboration tools
-sudo brew install microsoft-teams zoomus
+brew install microsoft-teams zoom --cask
 
 ###############################################################################
 ###################### Install from App Store #################################
 ###############################################################################
+
+# Install mas
+brew install mas
 
 # Install document editing tools
 mas install 462054704 # Microsoft Word
