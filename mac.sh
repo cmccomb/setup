@@ -20,6 +20,9 @@ fi
 brew update
 brew upgrade
 
+# Install utilities
+brew install wget tree htop trash
+
 # Install Docker and associated tools
 brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve
 
@@ -35,15 +38,15 @@ brew install box-drive github
 # Install collaboration tools
 brew install slack microsoft-teams zoomus whatsapp
 
-# Setup the dock
-brew install dockutil
-
 # Cleanup
 brew cleanup
 
 ########################################################
 ################# Setup The Dock #######################
 ########################################################
+
+# Setup the dock
+brew install dockutil
 
 # Remove all dock items
 dockutil --remove all
@@ -55,9 +58,9 @@ dockutil --add /Applications/Safari.app --no-restart
 dockutil --add /Applications/Messages.app --no-restart
 dockutil --add /Applications/Slack.app --no-restart
 dockutil --add /Applications/Notes.app --no-restart
-dockutil --add /Applications/Reminders.app
-dockutil --add /Users/mccomb/Applications/Calendar.app/
-dockutil --add /Users/mccomb/Applications/Gmail.app/
+dockutil --add /Applications/Reminders.app --no-restart
+dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA
+dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
 
 ########################################################
 ################# Setup The Finder #####################
@@ -68,3 +71,7 @@ defaults write com.apple.finder AppleShowAllFiles YES
 
 # Show path bar
 defaults write com.apple.finder ShowPathbar -bool true
+
+########################################################
+##################### Aesthetics #######################
+########################################################
