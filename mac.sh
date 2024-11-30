@@ -13,6 +13,7 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+
 ###############################################################################
 ########################### Update Xcode Stuff ################################
 ###############################################################################
@@ -20,6 +21,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Install xcode things
 sudo xcodebuild -license
 xcode-select --install
+
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
@@ -55,6 +57,7 @@ brew install slack microsoft-teams zoomus whatsapp
 
 # Cleanup
 brew cleanup
+
 
 ###############################################################################
 ########################## Setup The Dock #####################################
@@ -143,6 +146,7 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo Hos
 #sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
 #sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
 
+
 ###############################################################################
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
 ###############################################################################
@@ -168,6 +172,7 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
 sudo systemsetup -settimezone "America/New_York" > /dev/null
+
 
 ###############################################################################
 ############################# Energy Saving ###################################
@@ -218,6 +223,7 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+
 
 ###############################################################################
 ################################# Finder ######################################
@@ -270,12 +276,14 @@ chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
 
+
 ################################################################################
-## Dock, Dashboard, and hot corners                                            #
+################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
-## Set the icon size of Dock items to 36 pixels
+
+# Set the icon size of Dock items to 36 pixels
 defaults write com.apple.dock tilesize -int 36
-#
+
 # Change minimize/maximize window effect
 defaults write com.apple.dock mineffect -string "scale"
 
@@ -325,6 +333,7 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # Bottom right screen corner
 defaults write com.apple.dock wvous-br-corner -int 0
 defaults write com.apple.dock wvous-br-modifier -int 0
+
 
 ################################################################################
 ########################### Safari & WebKit ####################################
@@ -380,8 +389,9 @@ defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 # Update extensions automatically
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
+
 ################################################################################
-## Spotlight                                                                   #
+################################ Spotlight #####################################
 ################################################################################
 
 # Disable Spotlight indexing for any volume that gets mounted and has not yet
@@ -390,13 +400,6 @@ defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
 # Change indexing order and disable some search results
-# Yosemite-specific search results (remove them if you are using macOS 10.9 or older):
-# 	MENU_DEFINITION
-# 	MENU_CONVERSION
-# 	MENU_EXPRESSION
-# 	MENU_SPOTLIGHT_SUGGESTIONS (send search queries to Apple)
-# 	MENU_WEBSEARCH             (send search queries to Apple)
-# 	MENU_OTHER
 defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
 	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
@@ -413,13 +416,7 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
 	'{"enabled" = 0;"name" = "MUSIC";}' \
 	'{"enabled" = 0;"name" = "MOVIES";}' \
-	'{"enabled" = 0;"name" = "SOURCE";}' \
-	'{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-	'{"enabled" = 0;"name" = "MENU_OTHER";}' \
-	'{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
-	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
-	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+	'{"enabled" = 0;"name" = "SOURCE";}'
 
 # Load new settings before rebuilding the index
 killall mds > /dev/null 2>&1
