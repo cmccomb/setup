@@ -77,9 +77,6 @@ dockutil --add /Applications/Reminders.app --no-restart
 dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA
 dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
 
-########################################################
-################# Setup The Finder #####################
-########################################################
 
 ###############################################################################
 #############################  General UI/UX  #################################
