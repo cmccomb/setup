@@ -1,5 +1,5 @@
 # Opinionated Setup
 To Setup 
 ```shell
-curl https://www.cmccomb.com/setup/mac.sh | bash
+curl https://cmccomb.com/setup/mac.sh | bash
 ```
