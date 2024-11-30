@@ -38,19 +38,19 @@ brew update
 brew upgrade
 
 # Install utilities
-brew install wget tree htop trash
+sudo brew install wget tree htop trash
 
 # Install Docker and associated tools
-brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve
+sudo brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve
 
 # Install code editing tools
-brew install jetbrains-toolbox pycharm webstorm rustrover
+sudo brew install jetbrains-toolbox pycharm webstorm rustrover
 
 # Install file and project management
-brew install box-drive github
+sudo brew install box-drive github
 
 # Install collaboration tools
-brew install microsoft-teams zoomus
+sudo brew install microsoft-teams zoomus
 
 ###############################################################################
 ###################### Install from App Store #################################
