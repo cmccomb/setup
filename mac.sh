@@ -127,35 +127,15 @@ llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-
 llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
 
-
-###############################################################################
-########################## Setup The Dock #####################################
-###############################################################################
-
-# Remove all dock items
-dockutil --remove all
-
-# Add back stuff in the order we care about
-dockutil --add /System/Applications/System\ Settings.app --no-restart
-dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
-dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
-dockutil --add /System/Applications/Messages.app --no-restart
-dockutil --add /Applications/Slack.app --no-restart
-dockutil --add /System/Applications/Notes.app --no-restart
-dockutil --add /System/Applications/Reminders.app --no-restart
-dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA
-dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
-
-
 ###############################################################################
 #############################  General UI/UX  #################################
 ###############################################################################
 
 # Disable the sound effects on boot
-#sudo nvram SystemAudioVolume=" "
+sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-#sudo defaults write com.apple.universalaccess reduceTransparency -bool true
+sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -287,8 +267,8 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 ################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
 
-# Set the icon size of Dock items to 48 pixels
-defaults write com.apple.dock tilesize -int 48
+# Set the icon size of Dock items
+defaults write com.apple.dock tilesize -int 60
 
 # Change minimize/maximize window effect
 defaults write com.apple.dock mineffect -string "scale"
@@ -461,4 +441,23 @@ defaults write com.apple.commerce AutoUpdate -bool true
 
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+
+###############################################################################
+########################## Setup The Dock #####################################
+###############################################################################
+
+# Remove all dock items
+dockutil --remove all
+
+# Add back stuff in the order we care about
+dockutil --add /System/Applications/System\ Settings.app --no-restart
+dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
+dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
+dockutil --add /System/Applications/Messages.app --no-restart
+dockutil --add /Applications/Slack.app --no-restart
+dockutil --add /System/Applications/Notes.app --no-restart
+dockutil --add /System/Applications/Reminders.app --no-restart
+dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA
+dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
 
