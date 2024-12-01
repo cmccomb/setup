@@ -1,5 +1,29 @@
 #!/usr/bin/env bash
 
+# TODO: Give ScriptEditor Accessibility permissions
+# TODO: Make PWA
+#```
+#tell application "Safari"
+#	activate
+#end tell
+#
+#tell application "System Events"
+#	tell process "Safari"
+#		-- Open the "File" menu
+#		click menu bar item "File" of menu bar 1
+#		delay 0.5 -- Allow the menu to appear
+#
+#		-- Select "Add to Dock…" menu item
+#		click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
+#
+#		-- Simulate hitting "Enter" to confirm in case a modal dialog appears
+#		delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
+#		keystroke return
+#	end tell
+#end tell
+#```
+
+
 ###############################################################################
 ############################ Mise en place ####################################
 ###############################################################################
@@ -57,17 +81,6 @@ brew install microsoft-teams zoom --cask
 
 
 ###############################################################################
-############################## LLM Stuff ######################################
-###############################################################################
-
-# Install llama
-brew install llama.cpp
-
-# Jan
-brew install --cask jan
-
-
-###############################################################################
 ###################### Install from App Store #################################
 ###############################################################################
 
@@ -83,8 +96,37 @@ mas install 462062816 # Microsoft PowerPoint
 mas install 803453959 # Slack
 mas install 310633997 # WhatsApp
 
-# Install ChatGPT
-mas install 6448311069 # ChatGPT
+
+###############################################################################
+############################## LLM Stuff ######################################
+###############################################################################
+
+# Download the DMG file
+curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
+
+# Mount the DMG file
+hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
+
+# Copy the app to the Applications folder
+cp -R /Volumes/ChatGPT/ChatGPT.app /Applications/
+
+# Unmount the DMG file
+hdiutil detach /Volumes/ChatGPT -quiet
+
+# Clean up
+rm /tmp/ChatGPT.dmg
+
+# Install llama
+brew install llama.cpp
+
+# Install a few of my favorite local LLMs
+llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
+llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
+llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
+llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
+
+# Jan
+brew install --cask jan
 
 
 ###############################################################################
