@@ -166,29 +166,23 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 ############################# Energy Saving ###################################
 ###############################################################################
 
-## Enable lid wakeup
-#sudo pmset -a lidwake 1
-#
-## Restart automatically on power loss
-#sudo pmset -a autorestart 1
-#
-## Restart automatically if the computer freezes
-#sudo systemsetup -setrestartfreeze on
-#
-## Sleep the display after 15 minutes
-#sudo pmset -a displaysleep 15
-#
-## Disable machine sleep while charging
-#sudo pmset -c sleep 0
-#
-## Set machine sleep to 5 minutes on battery
-#sudo pmset -b sleep 5
-#
-## Set standby delay to 24 hours (default is 1 hour)
-#sudo pmset -a standbydelay 86400
-#
-## Never go into computer sleep mode
-#sudo systemsetup -setcomputersleep Off > /dev/null
+# Enable lid wakeup
+sudo pmset -a lidwake 1
+
+# Restart automatically on power loss
+sudo pmset -a autorestart 1
+
+# Sleep the display after 15 minutes
+sudo pmset -a displaysleep 15
+
+# Disable machine sleep while charging
+sudo pmset -c sleep 0
+
+# Set machine sleep to 5 minutes on battery
+sudo pmset -b sleep 5
+
+# Set standby delay to 24 hours (default is 1 hour)
+sudo pmset -a standbydelay 86400
 
 
 ###############################################################################
@@ -247,56 +241,56 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 ################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
 
-## Set the icon size of Dock items to 36 pixels
-#defaults write com.apple.dock tilesize -int 48
-#
-## Change minimize/maximize window effect
-#defaults write com.apple.dock mineffect -string "scale"
-#
-## Minimize windows into their application’s icon
-#defaults write com.apple.dock minimize-to-application -bool true
-#
-## Speed up Mission Control animations
-#defaults write com.apple.dock expose-animation-duration -float 0.1
-#
-## Remove the auto-hiding Dock delay
-#defaults write com.apple.dock autohide-delay -float 0
-#
-## Automatically hide and show the Dock
-#defaults write com.apple.dock autohide -bool true
-#
-## Don’t show recent applications in Dock
-#defaults write com.apple.dock show-recents -bool false
-#
-### Hot corners
-### Possible values:
-###  0: no-op
-###  2: Mission Control
-###  3: Show application windows
-###  4: Desktop
-###  5: Start screen saver
-###  6: Disable screen saver
-###  7: Dashboard
-### 10: Put display to sleep
-### 11: Launchpad
-### 12: Notification Center
-### 13: Lock Screen
-#
-## Top left screen corner
-#defaults write com.apple.dock wvous-tl-corner -int 0
-#defaults write com.apple.dock wvous-tl-modifier -int 0
-#
-## Top right screen corner
-#defaults write com.apple.dock wvous-tr-corner -int 0
-#defaults write com.apple.dock wvous-tr-modifier -int 0
-#
-## Bottom left screen corner
-#defaults write com.apple.dock wvous-bl-corner -int 0
-#defaults write com.apple.dock wvous-bl-modifier -int 0
-#
-## Bottom right screen corner
-#defaults write com.apple.dock wvous-br-corner -int 0
-#defaults write com.apple.dock wvous-br-modifier -int 0
+# Set the icon size of Dock items to 36 pixels
+defaults write com.apple.dock tilesize -int 48
+
+# Change minimize/maximize window effect
+defaults write com.apple.dock mineffect -string "scale"
+
+# Minimize windows into their application’s icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Speed up Mission Control animations
+defaults write com.apple.dock expose-animation-duration -float 0.1
+
+# Remove the auto-hiding Dock delay
+defaults write com.apple.dock autohide-delay -float 0
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Don’t show recent applications in Dock
+defaults write com.apple.dock show-recents -bool false
+
+## Hot corners
+## Possible values:
+##  0: no-op
+##  2: Mission Control
+##  3: Show application windows
+##  4: Desktop
+##  5: Start screen saver
+##  6: Disable screen saver
+##  7: Dashboard
+## 10: Put display to sleep
+## 11: Launchpad
+## 12: Notification Center
+## 13: Lock Screen
+
+# Top left screen corner
+defaults write com.apple.dock wvous-tl-corner -int 0
+defaults write com.apple.dock wvous-tl-modifier -int 0
+
+# Top right screen corner
+defaults write com.apple.dock wvous-tr-corner -int 0
+defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# Bottom left screen corner
+defaults write com.apple.dock wvous-bl-corner -int 0
+defaults write com.apple.dock wvous-bl-modifier -int 0
+
+# Bottom right screen corner
+defaults write com.apple.dock wvous-br-corner -int 0
+defaults write com.apple.dock wvous-br-modifier -int 0
 
 
 ################################################################################
