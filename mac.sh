@@ -432,5 +432,5 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ######################## Cleanup and Shutdown #################################
 ###############################################################################
 
-## Cleanup
-#brew cleanup
+# Cleanup
+brew cleanup
