@@ -210,20 +210,19 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 ############################# Energy Saving ###################################
 ###############################################################################
 
+# Disable machine sleep while charging
+sudo pmset -c displaysleep 60
+sudo pmset -c sleep 0
+
+# Set sleep when on battery
+sudo pmset -b displaysleep 10
+sudo pmset -b sleep 60
+
 # Enable lid wakeup
 sudo pmset -a lidwake 1
 
 # Restart automatically on power loss
 sudo pmset -a autorestart 1
-
-# Sleep the display after 15 minutes
-sudo pmset -a displaysleep 15
-
-# Disable machine sleep while charging
-sudo pmset -c sleep 0
-
-# Set machine sleep to 5 minutes on battery
-sudo pmset -b sleep 5
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
@@ -248,6 +247,9 @@ defaults write com.apple.screencapture type -string "png"
 # For other paths, use `PfLo` and `file:///full/path/here/`
 defaults write com.apple.finder NewWindowTarget -string "PfDe"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+
+# Use list view by default
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Finder: show hidden files by default
 defaults write com.apple.finder AppleShowAllFiles -bool true
@@ -285,7 +287,7 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 ################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
 
-# Set the icon size of Dock items to 36 pixels
+# Set the icon size of Dock items to 48 pixels
 defaults write com.apple.dock tilesize -int 48
 
 # Change minimize/maximize window effect
