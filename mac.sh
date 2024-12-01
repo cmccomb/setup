@@ -71,8 +71,8 @@ brew install --cask jan
 ###################### Install from App Store #################################
 ###############################################################################
 
-# Install mas
-brew install mas
+# Install developer tools
+mas install 497799835 # Xcode
 
 # Install document editing tools
 mas install 462054704 # Microsoft Word
@@ -87,9 +87,6 @@ mas install 310633997 # WhatsApp
 ###############################################################################
 ########################## Setup The Dock #####################################
 ###############################################################################
-
-# Setup the dock
-brew install dockutil
 
 # Remove all dock items
 dockutil --remove all
