@@ -79,6 +79,13 @@ brew install box-drive github
 # Install collaboration tools
 brew install microsoft-teams zoom --cask
 
+# Install LLM stuff
+brew install llama.cpp
+brew install jan --cask
+
+# Cleanup
+brew cleanup
+
 
 ###############################################################################
 ###################### Install from App Store #################################
@@ -108,25 +115,17 @@ curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/Cha
 hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
 
 # Copy the app to the Applications folder
-cp -R /Volumes/ChatGPT/ChatGPT.app /Applications/
+cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
 
-# Unmount the DMG file
+# Unmount the DMG file and clean up
 hdiutil detach /Volumes/ChatGPT -quiet
-
-# Clean up
 rm /tmp/ChatGPT.dmg
-
-# Install llama
-brew install llama.cpp
 
 # Install a few of my favorite local LLMs
 llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
-
-# Jan
-brew install --cask jan
 
 
 ###############################################################################
@@ -153,10 +152,10 @@ dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
 ###############################################################################
 
 # Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
+#sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-sudo defaults write com.apple.universalaccess reduceTransparency -bool true
+#sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -461,10 +460,3 @@ defaults write com.apple.commerce AutoUpdate -bool true
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
-
-###############################################################################
-######################## Cleanup and Shutdown #################################
-###############################################################################
-
-# Cleanup
-brew cleanup
