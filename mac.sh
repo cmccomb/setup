@@ -83,6 +83,9 @@ mas install 462062816 # Microsoft PowerPoint
 mas install 803453959 # Slack
 mas install 310633997 # WhatsApp
 
+# Install ChatGPT
+mas install 6448311069 # ChatGPT
+
 
 ###############################################################################
 ########################## Setup The Dock #####################################
