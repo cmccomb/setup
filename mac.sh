@@ -37,6 +37,9 @@ fi
 brew update
 brew upgrade
 
+# Install installation utilities
+brew install mas dockutil
+
 # Install utilities
 brew install wget tree htop trash
 
