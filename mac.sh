@@ -393,8 +393,8 @@ sudo mdutil -i on / > /dev/null
 ############################### TextEdit #######################################
 ################################################################################
 
-## Use plain text mode for new TextEdit documents
-#defaults write com.apple.TextEdit RichText -int 0
+# Use plain text mode for new TextEdit documents
+defaults write com.apple.TextEdit RichText -int 0
 
 
 ################################################################################
