@@ -92,6 +92,9 @@ mas install 462062816 # Microsoft PowerPoint
 mas install 803453959 # Slack
 mas install 310633997 # WhatsApp
 
+# Install utilities
+mas install 937984704 # Amphetamine
+
 
 ###############################################################################
 ############################## LLM Stuff ######################################
