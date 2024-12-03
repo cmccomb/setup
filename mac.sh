@@ -442,7 +442,7 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Remove all dock items
 dockutil --remove all
 
-# Add back stuff in the order we care about
+# Add back apps in the order we care about
 dockutil --add /System/Applications/System\ Settings.app --no-restart
 dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
 dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
@@ -450,6 +450,9 @@ dockutil --add /System/Applications/Messages.app --no-restart
 dockutil --add /Applications/Slack.app --no-restart
 dockutil --add /System/Applications/Notes.app --no-restart
 dockutil --add /System/Applications/Reminders.app --no-restart
-dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA
-dockutil --add /Users/mccomb/Applications/Gmail.app/ # TODO: Make the PWA
+dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA programmatically
+dockutil --add /Users/mccomb/Applications/Gmail.app/ --no-restart # TODO: Make the PWA programmatically
 
+# Add links to desktop and Box
+dockutil --add '~/Desktop' --view grid --display folder --no-restart
+dockutil --add '~/Library/CloudStorage/Box-Box/'  --view grid --display folder
