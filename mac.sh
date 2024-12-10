@@ -268,10 +268,10 @@ sudo pmset -a autorestart 1
 sudo pmset -a standbydelay 86400
 
 ###############################################################################
-################################ Screen #######################################
+############################### Screenshots ###################################
 ###############################################################################
 
-echo "Setting up screen parameters..."
+echo "Setting up screenshot parameters..."
 
 # Save screenshots to the desktop ✅
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
