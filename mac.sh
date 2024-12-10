@@ -458,8 +458,8 @@ dockutil --add /System/Applications/Messages.app --no-restart
 dockutil --add /Applications/Slack.app --no-restart
 dockutil --add /System/Applications/Notes.app --no-restart
 dockutil --add /System/Applications/Reminders.app --no-restart
-dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Make the PWA programmatically
-dockutil --add /Users/mccomb/Applications/Gmail.app/ --no-restart # TODO: Make the PWA programmatically
+dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
+dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 
 # Add links to desktop and Box
 dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
