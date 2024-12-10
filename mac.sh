@@ -74,9 +74,8 @@ brew install jan --cask
 # Cleanup
 brew cleanup
 
-
 ###############################################################################
-###################### Install from App Store #################################
+################### Install Applications with App Store #######################
 ###############################################################################
 
 # Install developer tools
@@ -161,8 +160,6 @@ defaults write com.apple.CrashReporter DialogType -string "none"
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
 
-#
-
 ###############################################################################
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
 ###############################################################################
@@ -180,7 +177,6 @@ defaults write NSGlobalDomain AppleMetricUnits -bool false
 
 # Show language menu in the top right corner of the boot screen
 sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
-
 
 ###############################################################################
 ############################# Energy Saving ###################################
@@ -203,7 +199,6 @@ sudo pmset -a autorestart 1
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
 
-
 ###############################################################################
 ################################ Screen #######################################
 ###############################################################################
@@ -213,7 +208,6 @@ defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
-
 
 ###############################################################################
 ################################# Finder ######################################
@@ -257,7 +251,6 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-
 
 ################################################################################
 ################### Dock, Dashboard, and hot corners  ##########################
@@ -314,7 +307,6 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 defaults write com.apple.dock wvous-br-corner -int 0
 defaults write com.apple.dock wvous-br-modifier -int 0
 
-
 ################################################################################
 ########################### Safari & WebKit ####################################
 ################################################################################
@@ -369,7 +361,6 @@ sudo defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 # Update extensions automatically
 sudo defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
-
 ################################################################################
 ################################ Spotlight #####################################
 ################################################################################
@@ -399,14 +390,12 @@ killall mds > /dev/null 2>&1
 # Make sure indexing is enabled for the main volume
 sudo mdutil -i on / > /dev/null
 
-
 ################################################################################
 ############################### TextEdit #######################################
 ################################################################################
 
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
-
 
 ################################################################################
 ############################### App Store ######################################
@@ -430,14 +419,12 @@ defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 # Turn on app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
 
-
 ###############################################################################
 ############################## Photos #########################################
 ###############################################################################
 
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
-
 
 ###############################################################################
 ########################## Setup The Dock #####################################
@@ -459,4 +446,4 @@ dockutil --add /Users/mccomb/Applications/Gmail.app/ --no-restart # TODO: Make t
 
 # Add links to desktop and Box
 dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
-dockutil --add "$HOME/Library/CloudStorage/Box-Box/"  --view grid --display folder
+dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
