@@ -1,29 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: Give ScriptEditor Accessibility permissions
-# TODO: Make PWA
-#```
-#tell application "Safari"
-#	activate
-#end tell
-#
-#tell application "System Events"
-#	tell process "Safari"
-#		-- Open the "File" menu
-#		click menu bar item "File" of menu bar 1
-#		delay 0.5 -- Allow the menu to appear
-#
-#		-- Select "Add to Dock…" menu item
-#		click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
-#
-#		-- Simulate hitting "Enter" to confirm in case a modal dialog appears
-#		delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
-#		keystroke return
-#	end tell
-#end tell
-#```
-
-
 ###############################################################################
 ############################ Mise en place ####################################
 ###############################################################################
@@ -33,7 +9,6 @@ osascript -e 'tell application "System Preferences" to quit'
 
 # Install xcode things
 xcode-select --install
-
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
@@ -93,6 +68,38 @@ mas install 310633997 # WhatsApp
 # Install utilities
 mas install 937984704 # Amphetamine
 
+###############################################################################
+################### Install Applications as PWAs ##############################
+###############################################################################
+
+function make_pwa {
+	osascript <<EOF
+    tell application "Safari"
+      activate
+      open location "$1"
+      delay 1.0
+    end tell
+
+    tell application "System Events"
+      tell process "Safari"
+        -- Open the "File" menu
+        click menu bar item "File" of menu bar 1
+        delay 0.5 -- Allow the menu to appear
+
+        -- Select "Add to Dock…" menu item
+        click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
+
+        -- Simulate hitting "Enter" to confirm in case a modal dialog appears
+        delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
+        keystroke return
+      end tell
+    end tell
+EOF
+}
+
+make_pwa "https://calendar.google.com/calendar/u/0/r"
+make_pwa "https://mail.google.com/mail/u/0/#inbox"
+osascript -e 'tell application "Safari" to quit'
 
 ###############################################################################
 ############################## LLM Stuff ######################################
