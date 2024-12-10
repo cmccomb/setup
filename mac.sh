@@ -124,7 +124,7 @@ llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Inst
 ###############################################################################
 
 # Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
+sudo nvram StartupMute=%01
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
 sudo defaults write com.apple.universalaccess reduceTransparency -bool true
