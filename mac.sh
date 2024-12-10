@@ -162,6 +162,7 @@ defaults write com.apple.CrashReporter DialogType -string "none"
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
 
+#
 
 ###############################################################################
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
