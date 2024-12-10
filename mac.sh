@@ -59,13 +59,39 @@ brew cleanup
 
 echo "Installing applications with the App Store..."
 
-mas list
-
-# Function to get more info and install an app from the App Store ✅
-function mas_info_and_install() {
-  mas info "$1"
-  mas install "$1"
+# Function to check if iCloud is signed in
+function is_icloud_signed_in() {
+  if defaults read MobileMeAccounts | grep -q AccountID; then
+    return 0
+  else
+    return 1
+  fi
 }
+
+# Function to get more info and install an app from the App Store
+function mas_info_and_install() {
+  if is_icloud_signed_in; then
+    mas info "$1"
+    mas install "$1"
+  else
+    echo "iCloud is not signed in. Skipping installation."
+  fi
+}
+
+# Install developer tools
+mas_info_and_install 497799835 # Xcode
+
+# Install document editing tools
+mas_info_and_install 462054704 # Microsoft Word
+mas_info_and_install 462058435 # Microsoft Excel
+mas_info_and_install 462062816 # Microsoft PowerPoint
+
+# Install collaboration tools
+mas_info_and_install 803453959 # Slack
+mas_info_and_install 310633997 # WhatsApp
+
+# Install utilities
+mas_info_and_install 937984704 # Amphetamine
 
 # Install developer tools ✅
 mas_info_and_install 497799835 # Xcode
@@ -133,15 +159,13 @@ make_pwa "https://mail.google.com/mail/u/0/#inbox"
 osascript -e 'tell application "Safari" to quit'
 
 ###############################################################################
-############################## LLM Stuff ######################################
+############################### AI Stuff ######################################
 ###############################################################################
 
-echo "Installing LLM stuff..."
+echo "Installing AI stuff..."
 
 # Check if ChatGPT is already installed
 if [ ! -d "/Applications/ChatGPT.app" ]; then
-  echo "ChatGPT not found. Downloading and installing ChatGPT..."
-
   # Download the DMG file
   curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
 
@@ -154,8 +178,6 @@ if [ ! -d "/Applications/ChatGPT.app" ]; then
   # Unmount the DMG file and clean up
   hdiutil detach /Volumes/ChatGPT -quiet
   rm /tmp/ChatGPT.dmg
-else
-  echo "ChatGPT is already installed."
 fi
 
 # Install a few of my favorite local LLMs
