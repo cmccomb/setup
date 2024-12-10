@@ -129,6 +129,10 @@ sudo nvram SystemAudioVolume=" "
 # Disable transparency in the menu bar and elsewhere on Yosemite
 sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
+# Show the battery percentage in the menubar.
+USERNAME=`who | grep console | awk '{ print $1 }'`
+sudo -u $USERNAME defaults write /Users/$USERNAME/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
+
 # Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 
