@@ -130,8 +130,8 @@ sudo nvram StartupMute=%01
 sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Show the battery percentage in the menubar.
-USERNAME=`who | grep console | awk '{ print $1 }'`
-sudo -u $USERNAME defaults write /Users/$USERNAME/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
+USERNAME=$(who | grep console | awk '{ print $1 }')
+sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
 
 # Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -459,5 +459,5 @@ dockutil --add /Users/mccomb/Applications/Calendar.app/ --no-restart # TODO: Mak
 dockutil --add /Users/mccomb/Applications/Gmail.app/ --no-restart # TODO: Make the PWA programmatically
 
 # Add links to desktop and Box
-dockutil --add '~/Desktop' --view grid --display folder --no-restart
-dockutil --add '~/Library/CloudStorage/Box-Box/'  --view grid --display folder
+dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+dockutil --add "$HOME/Library/CloudStorage/Box-Box/"  --view grid --display folder
