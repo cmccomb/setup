@@ -59,6 +59,8 @@ brew cleanup
 
 echo "Installing applications with the App Store..."
 
+mas list
+
 # Function to get more info and install an app from the App Store ✅
 function mas_info_and_install() {
   mas info "$1"
