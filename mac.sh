@@ -4,129 +4,141 @@
 ############################ Mise en place ####################################
 ###############################################################################
 
-# Close any open System Preferences panes, to prevent them from overriding settings we’re about to change
+# Prevent them from overriding settings we’re about to change ✅
 osascript -e 'tell application "System Preferences" to quit'
 
-# Install xcode things
+# Install xcode things ✅
 xcode-select --install
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
 ###############################################################################
 
-# Install Homebrew if not already present
+# Install Homebrew if not already present ✅
 if test ! "$(which brew)"; then
 	echo "Installing Homebrew"
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Update Homebrew
+# Update Homebrew ✅
 brew update
 brew upgrade
 
-# Install installation utilities
+# Install installation utilities ✅
 brew install mas dockutil
 
-# Install utilities
+# Install utilities ✅
 brew install wget tree htop trash
 
-# Install Docker and associated tools
+# Install Docker and associated tools ✅
 brew install docker --cask
 
-# Install code editing tools
+# Install code editing tools ✅
 brew install jetbrains-toolbox pycharm webstorm rustrover --cask
 
-# Install file and project management
+# Install file and project management ✅
 brew install box-drive github
 
-# Install collaboration tools
+# Install collaboration  ✅
 brew install microsoft-teams zoom --cask
 
-# Install LLM stuff
+# Install LLM stuff ✅
 brew install llama.cpp
 brew install jan --cask
 
-# Cleanup
+# Cleanup ✅
 brew cleanup
 
 ###############################################################################
 ################### Install Applications with App Store #######################
 ###############################################################################
 
-# Install developer tools
+# Install developer tools ✅
 mas install 497799835 # Xcode
 
-# Install document editing tools
+# Install document editing tools ✅
 mas install 462054704 # Microsoft Word
 mas install 462058435 # Microsoft Excel
 mas install 462062816 # Microsoft PowerPoint
 
-# Install collaboration tools
+# Install collaboration tools ✅
 mas install 803453959 # Slack
 mas install 310633997 # WhatsApp
 
-# Install utilities
+# Install utilities ✅
 mas install 937984704 # Amphetamine
 
-# Uninstall weird Apple stuff
+# Uninstall weird Apple stuff ✅
 sudo mas uninstall 409183694 # Keynote
 sudo mas uninstall 408981434 # iMovie
 sudo mas uninstall 409201541 # Pages
 sudo mas uninstall 682658836 # GarageBand
 sudo mas uninstall 409203825 # Numbers
 
-# Empty the trash
-trash -y
+# Securely empty the trash ✅
+trash -y -s
 
 ###############################################################################
 ################### Install Applications as PWAs ##############################
 ###############################################################################
 
+# Function to make a PWA ✅
 function make_pwa {
 	osascript <<EOF
     tell application "Safari"
       activate
-      open location "$1"
-      delay 1.0
+      open location "$1" -- The URL of the website you want to make a PWA
+      delay 1.0 -- Allow time for Safari to open the page
     end tell
 
     tell application "System Events"
       tell process "Safari"
-        -- Open the "File" menu
-        click menu bar item "File" of menu bar 1
+        click menu bar item "File" of menu bar 1 -- Open the "File" menu
         delay 0.5 -- Allow the menu to appear
 
         -- Select "Add to Dock…" menu item
         click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
 
-        -- Simulate hitting "Enter" to confirm in case a modal dialog appears
+        -- Hit "Enter" to confirm in case a modal dialog appears
         delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
-        keystroke return
+        keystroke return -- Hit "Enter" to confirm
       end tell
     end tell
 EOF
 }
 
+# Install a Google Calendar PWA ✅
 make_pwa "https://calendar.google.com/calendar/u/0/r"
+
+# Install a GMail PWA ✅
 make_pwa "https://mail.google.com/mail/u/0/#inbox"
+
+# Close Safari ✅
 osascript -e 'tell application "Safari" to quit'
 
 ###############################################################################
 ############################## LLM Stuff ######################################
 ###############################################################################
 
-# Download the DMG file
-curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
+# Check if ChatGPT is already installed
+if [ ! -d "/Applications/ChatGPT.app" ]; then
+  echo "ChatGPT not found. Downloading and installing ChatGPT..."
 
-# Mount the DMG file
-hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
+  # Download the DMG file
+  curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
 
-# Copy the app to the Applications folder
-cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
+  # Mount the DMG file
+  hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
 
-# Unmount the DMG file and clean up
-hdiutil detach /Volumes/ChatGPT -quiet
-rm /tmp/ChatGPT.dmg
+  # Copy the app to the Applications folder
+  cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
+
+  # Unmount the DMG file and clean up
+  hdiutil detach /Volumes/ChatGPT -quiet
+  rm /tmp/ChatGPT.dmg
+else
+  echo "ChatGPT is already installed."
+fi
 
 # Install a few of my favorite local LLMs
 llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
@@ -138,25 +150,18 @@ llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Inst
 #############################  General UI/UX  #################################
 ###############################################################################
 
-# Disable the sound effects on boot
+# Disable the sound effects on boot ✅
 sudo nvram StartupMute=%01
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
 sudo defaults write com.apple.universalaccess reduceTransparency -bool true
 
-# Show the battery percentage in the menubar.
+# Show the battery percentage in the menubar. ✅
 USERNAME=$(who | grep console | awk '{ print $1 }')
 sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
 
-# Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
+# Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`) ✅
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-
-# Adjust toolbar title rollover delay
-defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0
-
-# Expand save panel by default
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
 # Expand print panel by default
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
@@ -220,17 +225,17 @@ sudo pmset -a standbydelay 86400
 ################################ Screen #######################################
 ###############################################################################
 
-# Save screenshots to the desktop
+# Save screenshots to the desktop ✅
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
-# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF) ✅
 defaults write com.apple.screencapture type -string "png"
 
 ###############################################################################
 ################################# Finder ######################################
 ###############################################################################
 
-# Set Desktop as the default location for new Finder windows
+# Set Desktop as the default location for new Finder windows ✅
 # For other paths, use `PfLo` and `file:///full/path/here/`
 defaults write com.apple.finder NewWindowTarget -string "PfDe"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
@@ -238,7 +243,7 @@ defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desk
 # Use list view by default
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-# Finder: show hidden files by default
+# Finder: show hidden files by default ✅
 defaults write com.apple.finder AppleShowAllFiles -bool true
 
 # Finder: show path bar
@@ -357,6 +362,7 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
 # Enable continuous spellchecking
 sudo defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+
 # Disable auto-correct
 sudo defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
 
@@ -447,10 +453,10 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ########################## Setup The Dock #####################################
 ###############################################################################
 
-# Remove all dock items
+# Remove all dock items ✅
 dockutil --remove all
 
-# Add back apps in the order we care about
+# Add back apps in the order we care about ✅
 dockutil --add /System/Applications/System\ Settings.app --no-restart
 dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
 dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
@@ -461,6 +467,6 @@ dockutil --add /System/Applications/Reminders.app --no-restart
 dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 
-# Add links to desktop and Box
+# Add links to desktop and Box ✅
 dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
 dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
