@@ -1,4 +1,4 @@
-# MacComb
+# Setup your mac, my way
 [![Test city-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml)
 [![Test country-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml)
 
