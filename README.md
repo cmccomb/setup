@@ -3,6 +3,12 @@
 
 This repo contains a heavily opinionated setup script for my Macs. To use this script, simply run:
     
+To get work done:
 ```bash
-curl -s https://cmccomb.com/setup/mac.sh | bash
+curl -s https://cmccomb.com/setup/city-mac.sh | bash
+```
+
+To relax:
+```bash
+curl -s https://cmccomb.com/setup/country-mac.sh | bash
 ```

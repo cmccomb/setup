@@ -78,21 +78,6 @@ function mas_info_and_install() {
   fi
 }
 
-# Install developer tools
-mas_info_and_install 497799835 # Xcode
-
-# Install document editing tools
-mas_info_and_install 462054704 # Microsoft Word
-mas_info_and_install 462058435 # Microsoft Excel
-mas_info_and_install 462062816 # Microsoft PowerPoint
-
-# Install collaboration tools
-mas_info_and_install 803453959 # Slack
-mas_info_and_install 310633997 # WhatsApp
-
-# Install utilities
-mas_info_and_install 937984704 # Amphetamine
-
 # Install developer tools ✅
 mas_info_and_install 497799835 # Xcode
 
