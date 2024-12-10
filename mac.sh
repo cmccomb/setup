@@ -4,6 +4,8 @@
 ############################ Mise en place ####################################
 ###############################################################################
 
+echo "Setting up your Mac..."
+
 # Prevent them from overriding settings we’re about to change ✅
 osascript -e 'tell application "System Preferences" to quit'
 
@@ -13,6 +15,8 @@ xcode-select --install
 ###############################################################################
 ################### Install Applications with Homebrew ########################
 ###############################################################################
+
+echo "Installing applications with Homebrew..."
 
 # Install Homebrew if not already present ✅
 if test ! "$(which brew)"; then
@@ -53,20 +57,28 @@ brew cleanup
 ################### Install Applications with App Store #######################
 ###############################################################################
 
+echo "Installing applications with the App Store..."
+
+# Function to get more info and install an app from the App Store ✅
+function mas_info_and_install() {
+  mas info "$1"
+  mas install "$1"
+}
+
 # Install developer tools ✅
-mas install 497799835 # Xcode
+mas_info_and_install 497799835 # Xcode
 
 # Install document editing tools ✅
-mas install 462054704 # Microsoft Word
-mas install 462058435 # Microsoft Excel
-mas install 462062816 # Microsoft PowerPoint
+mas_info_and_install 462054704 # Microsoft Word
+mas_info_and_install 462058435 # Microsoft Excel
+mas_info_and_install 462062816 # Microsoft PowerPoint
 
 # Install collaboration tools ✅
-mas install 803453959 # Slack
-mas install 310633997 # WhatsApp
+mas_info_and_install 803453959 # Slack
+mas_info_and_install 310633997 # WhatsApp
 
 # Install utilities ✅
-mas install 937984704 # Amphetamine
+mas_info_and_install 937984704 # Amphetamine
 
 # Uninstall weird Apple stuff ✅
 sudo mas uninstall 409183694 # Keynote
@@ -81,6 +93,8 @@ trash -y -s
 ###############################################################################
 ################### Install Applications as PWAs ##############################
 ###############################################################################
+
+echo "Installing applications as PWAs..."
 
 # Function to make a PWA ✅
 function make_pwa {
@@ -120,6 +134,8 @@ osascript -e 'tell application "Safari" to quit'
 ############################## LLM Stuff ######################################
 ###############################################################################
 
+echo "Installing LLM stuff..."
+
 # Check if ChatGPT is already installed
 if [ ! -d "/Applications/ChatGPT.app" ]; then
   echo "ChatGPT not found. Downloading and installing ChatGPT..."
@@ -149,6 +165,8 @@ llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Inst
 ###############################################################################
 #############################  General UI/UX  #################################
 ###############################################################################
+
+echo "Setting up the general UI/UX..."
 
 # Disable the sound effects on boot ✅
 sudo nvram StartupMute=%01
@@ -186,6 +204,8 @@ defaults write com.apple.helpviewer DevMode -bool true
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
 ###############################################################################
 
+echo "Setting up trackpad, mouse, keyboard, Bluetooth accessories, and input..."
+
 # Trackpad: enable tap to click for this user and for the login screen
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -203,6 +223,8 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bo
 ###############################################################################
 ############################# Energy Saving ###################################
 ###############################################################################
+
+echo "Setting up energy saving parameters..."
 
 # Disable machine sleep while charging
 sudo pmset -c displaysleep 60
@@ -225,58 +247,19 @@ sudo pmset -a standbydelay 86400
 ################################ Screen #######################################
 ###############################################################################
 
+echo "Setting up screen parameters..."
+
 # Save screenshots to the desktop ✅
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF) ✅
 defaults write com.apple.screencapture type -string "png"
 
-###############################################################################
-################################# Finder ######################################
-###############################################################################
-
-# Set Desktop as the default location for new Finder windows ✅
-# For other paths, use `PfLo` and `file:///full/path/here/`
-defaults write com.apple.finder NewWindowTarget -string "PfDe"
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
-
-# Use list view by default
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-
-# Finder: show hidden files by default ✅
-defaults write com.apple.finder AppleShowAllFiles -bool true
-
-# Finder: show path bar
-defaults write com.apple.finder ShowPathbar -bool true
-
-# Disable the warning when changing a file extension
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-
-# Show item info near icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-
-# Show item info to the right of the icons on the desktop
-/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
-
-# Enable snap-to-grid for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-
-# Increase grid spacing for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-
 ################################################################################
 ################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
+
+echo "Setting up the Dock, Dashboard, and hot corners..."
 
 # Set the icon size of Dock items
 defaults write com.apple.dock tilesize -int 60
@@ -329,9 +312,58 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 defaults write com.apple.dock wvous-br-corner -int 0
 defaults write com.apple.dock wvous-br-modifier -int 0
 
+
+###############################################################################
+################################# Finder ######################################
+###############################################################################
+
+echo "Customizing Finder..."
+
+# Set Desktop as the default location for new Finder windows ✅
+# For other paths, use `PfLo` and `file:///full/path/here/`
+defaults write com.apple.finder NewWindowTarget -string "PfDe"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+
+# Use list view by default
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+# Finder: show hidden files by default ✅
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Finder: show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Disable the warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Show item info near icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+
+# Show item info to the right of the icons on the desktop
+/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+
+# Enable snap-to-grid for icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+
+# Increase grid spacing for icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+
+
 ################################################################################
 ########################### Safari & WebKit ####################################
 ################################################################################
+
+echo "Customizing Safari..."
 
 # Privacy: don’t send search queries to Apple
 sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false
@@ -388,6 +420,8 @@ sudo defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool 
 ################################ Spotlight #####################################
 ################################################################################
 
+echo "Customizing Spotlight..."
+
 # Change indexing order and disable some search results
 defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
@@ -417,12 +451,16 @@ sudo mdutil -i on / > /dev/null
 ############################### TextEdit #######################################
 ################################################################################
 
+echo "Customizing TextEdit..."
+
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
 
 ################################################################################
 ############################### App Store ######################################
 ################################################################################
+
+echo "Customizing the App Store..."
 
 # Enable the automatic update check
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
@@ -446,12 +484,16 @@ defaults write com.apple.commerce AutoUpdate -bool true
 ############################## Photos #########################################
 ###############################################################################
 
+echo "Customizing Photos..."
+
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 ###############################################################################
 ########################## Setup The Dock #####################################
 ###############################################################################
+
+echo "Customizing the Dock..."
 
 # Remove all dock items ✅
 dockutil --remove all
