@@ -40,10 +40,9 @@ xcode-select --install
 ###############################################################################
 
 # Install Homebrew if not already present
-# shellcheck disable=SC2046
-if test ! $(which brew); then
-    echo "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if test ! "$(which brew)"; then
+	echo "Installing Homebrew"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # Update Homebrew
