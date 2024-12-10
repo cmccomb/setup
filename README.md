@@ -1,14 +1,15 @@
 # MacComb
-[![Test mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-mac-sh.yml)
+[![Test city-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml)
+[![Test country-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml)
 
 This repo contains a heavily opinionated setup script for my Macs. To use this script, simply run:
     
-To get work done:
+If you're feeling pretty 💪⌨️, install this:
 ```bash
 curl -s https://cmccomb.com/setup/city-mac.sh | bash
 ```
 
-To relax:
+But if you're feeling more 🤠👾, install this:
 ```bash
 curl -s https://cmccomb.com/setup/country-mac.sh | bash
 ```
