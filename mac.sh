@@ -68,6 +68,16 @@ mas install 310633997 # WhatsApp
 # Install utilities
 mas install 937984704 # Amphetamine
 
+# Uninstall weird Apple stuff
+sudo mas uninstall 409183694 # Keynote
+sudo mas uninstall 408981434 # iMovie
+sudo mas uninstall 409201541 # Pages
+sudo mas uninstall 682658836 # GarageBand
+sudo mas uninstall 409203825 # Numbers
+
+# Empty the trash
+trash -y
+
 ###############################################################################
 ################### Install Applications as PWAs ##############################
 ###############################################################################
