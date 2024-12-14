@@ -62,23 +62,23 @@ function __install_via_brew() {
 	brew install mas dockutil
 	
 	# ✅ Install utilities
-	brew install wget tree htop trash
+	brew install coreutils wget tree htop trash
 	
 	# ✅ Install Docker and associated tools
-	brew install docker --cask
+	brew install --cask docker 
 	
 	# ✅ Install code editing tools
-	brew install jetbrains-toolbox pycharm webstorm rustrover --cask
+	brew install --cask jetbrains-toolbox pycharm webstorm rustrover 
 	
 	# ✅ Install file and project management
-	brew install box-drive github
+	brew install --cask box-drive github
 	
 	# ✅ Install collaboration
-	brew install microsoft-teams zoom --cask
+	brew install --cask microsoft-teams zoom 
 	
 	# ✅ Install LLM stuff
 	brew install llama.cpp
-	brew install jan --cask
+	brew install --cask jan 
 	
 	# ✅ Cleanup
 	brew cleanup
