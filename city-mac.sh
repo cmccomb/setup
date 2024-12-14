@@ -43,6 +43,10 @@ if test ! "$(which brew)"; then
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+echo >> /Users/"$USERNAME"/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/work/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # ✅ Update Homebrew
 brew update
 brew upgrade
