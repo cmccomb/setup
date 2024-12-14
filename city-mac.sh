@@ -4,7 +4,8 @@
 ############################ Mise en place ####################################
 ###############################################################################
 
-function __mise() {
+function __mise_en_place() {
+
 	echo "Setting up your Mac..."
 	
 	# ✅ Prevent them from overriding settings we’re about to change
@@ -33,7 +34,7 @@ function __mise() {
 	USERNAME=$(id -un)	
 }
 
-__mise
+__mise_en_place
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
