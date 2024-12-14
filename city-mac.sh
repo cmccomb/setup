@@ -39,7 +39,7 @@ __mise
 ################### Install Applications with Homebrew ########################
 ###############################################################################
 
-function __brew() {
+function __install_via_brew() {
 	echo "Installing applications with Homebrew..."
 	
 	if test ! "$(which brew)"; then
@@ -83,13 +83,13 @@ function __brew() {
 	brew cleanup
 }
 
- __brew
+ __install_via_brew
 
 ###############################################################################
 ################### Install Applications with App Store #######################
 ###############################################################################
 
-function __mas() {
+function __install_via_mas() {
 
 	echo "Installing applications with the App Store..."
 	
@@ -161,13 +161,13 @@ function __mas() {
 	trash -y -s
 }
 
-__mas
+__install_via_mas
 
 ###############################################################################
 ################### Install Applications as PWAs ##############################
 ###############################################################################
 
-function pwa() {
+function __install_as_pwa() {
 
 	echo "Installing applications as PWAs..."
 	
@@ -209,7 +209,7 @@ EOF
 	osascript -e 'tell application "Safari" to quit'
  }
 
- __pwa
+ __install_as_pwa
 
 ###############################################################################
 ############################### AI Stuff ######################################
@@ -247,185 +247,214 @@ __ai_stuff
 #############################  General UI/UX  #################################
 ###############################################################################
 
-echo "Setting up the general UI/UX..."
+function __general_uiux() {
 
-# ✅ Disable the sound effects on boot
-sudo nvram StartupMute=%01
+	echo "Setting up the general UI/UX..."
+	
+	# ✅ Disable the sound effects on boot
+	sudo nvram StartupMute=%01
+	
+	# ✅ Show the battery percentage in the menubar
+	sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
+	
+	# ✅ Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
+	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+	
+	# Save to disk (not to iCloud) by default
+	defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+	
+	# Disable the “Are you sure you want to open this application?” dialog
+	defaults write com.apple.LaunchServices LSQuarantine -bool false
+	
+	# Disable automatic termination of inactive apps
+	defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+	
+	# Disable the crash reporter
+	defaults write com.apple.CrashReporter DialogType -string "none"
+ 
+}
 
-# ✅ Show the battery percentage in the menubar
-sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
-
-# ✅ Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
-defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-
-# Save to disk (not to iCloud) by default
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-
-# Disable the “Are you sure you want to open this application?” dialog
-defaults write com.apple.LaunchServices LSQuarantine -bool false
-
-# Disable automatic termination of inactive apps
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
-
-# Disable the crash reporter
-defaults write com.apple.CrashReporter DialogType -string "none"
+__general_uiux
 
 ###############################################################################
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
 ###############################################################################
 
-echo "Setting up trackpad, mouse, keyboard, Bluetooth accessories, and input..."
+function __general_io() {
+	
+	echo "Setting up trackpad, mouse, keyboard, Bluetooth accessories, and input..."
+	
+	# Trackpad: enable tap to click for this user and for the login screen
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+	defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+	defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+	
+	# Set language and text formats
+	defaults write NSGlobalDomain AppleLanguages -array "en"
+	defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
+	defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
+	defaults write NSGlobalDomain AppleMetricUnits -bool false
+	
+	# Show language menu in the top right corner of the boot screen
+	sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
-# Trackpad: enable tap to click for this user and for the login screen
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-
-# Set language and text formats
-defaults write NSGlobalDomain AppleLanguages -array "en"
-defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
-defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
-defaults write NSGlobalDomain AppleMetricUnits -bool false
-
-# Show language menu in the top right corner of the boot screen
-sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+}
 
 ###############################################################################
 ############################# Energy Saving ###################################
 ###############################################################################
 
-echo "Setting up energy saving parameters..."
+function __energy() {
 
-# Disable machine sleep while charging
-sudo pmset -c displaysleep 60
-sudo pmset -c sleep 0
+	echo "Setting up energy saving parameters..."
+	
+	# Disable machine sleep while charging
+	sudo pmset -c displaysleep 60
+	sudo pmset -c sleep 0
+	
+	# Set sleep when on battery
+	sudo pmset -b displaysleep 10
+	sudo pmset -b sleep 60
+	
+	# Enable lid wakeup
+	sudo pmset -a lidwake 1
+	
+	# Restart automatically on power loss
+	sudo pmset -a autorestart 1
+	
+	# Set standby delay to 24 hours (default is 1 hour)
+	sudo pmset -a standbydelay 86400
 
-# Set sleep when on battery
-sudo pmset -b displaysleep 10
-sudo pmset -b sleep 60
-
-# Enable lid wakeup
-sudo pmset -a lidwake 1
-
-# Restart automatically on power loss
-sudo pmset -a autorestart 1
-
-# Set standby delay to 24 hours (default is 1 hour)
-sudo pmset -a standbydelay 86400
+}
 
 ###############################################################################
 ############################### Screenshots ###################################
 ###############################################################################
 
-echo "Setting up screenshot parameters..."
+function __screenshots() {
+	
+	echo "Setting up screenshot parameters..."
+	
+	# ✅ Save screenshots to the desktop
+	defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+	
+	# ✅ Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+	defaults write com.apple.screencapture type -string "png"
 
-# ✅ Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${HOME}/Desktop"
-
-# ✅ Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-defaults write com.apple.screencapture type -string "png"
+}
 
 ################################################################################
 ################### Dock, Dashboard, and hot corners  ##########################
 ################################################################################
 
-echo "Setting up the Dock, Dashboard, and hot corners..."
+function __more_ui() {
 
-# Set the icon size of Dock items
-defaults write com.apple.dock tilesize -int 60
+	echo "Setting up the Dock, Dashboard, and hot corners..."
+	
+	# Set the icon size of Dock items
+	defaults write com.apple.dock tilesize -int 60
+	
+	# Change minimize/maximize window effect
+	defaults write com.apple.dock mineffect -string "scale"
+	
+	# Minimize windows into their application’s icon
+	defaults write com.apple.dock minimize-to-application -bool true
+	
+	# Speed up Mission Control animations
+	defaults write com.apple.dock expose-animation-duration -float 0.1
+	
+	# Remove the auto-hiding Dock delay
+	defaults write com.apple.dock autohide-delay -float 0
+	
+	# Automatically hide and show the Dock
+	defaults write com.apple.dock autohide -bool true
+	
+	# Don’t show recent applications in Dock
+	defaults write com.apple.dock show-recents -bool false
+	
+	## Hot corners
+	## Possible values:
+	##  0: no-op
+	##  2: Mission Control
+	##  3: Show application windows
+	##  4: Desktop
+	##  5: Start screen saver
+	##  6: Disable screen saver
+	##  7: Dashboard
+	## 10: Put display to sleep
+	## 11: Launchpad
+	## 12: Notification Center
+	## 13: Lock Screen
+	
+	# Top left screen corner
+	defaults write com.apple.dock wvous-tl-corner -int 0
+	defaults write com.apple.dock wvous-tl-modifier -int 0
+	
+	# Top right screen corner
+	defaults write com.apple.dock wvous-tr-corner -int 0
+	defaults write com.apple.dock wvous-tr-modifier -int 0
+	
+	# Bottom left screen corner
+	defaults write com.apple.dock wvous-bl-corner -int 0
+	defaults write com.apple.dock wvous-bl-modifier -int 0
+	
+	# Bottom right screen corner
+	defaults write com.apple.dock wvous-br-corner -int 0
+	defaults write com.apple.dock wvous-br-modifier -int 0
 
-# Change minimize/maximize window effect
-defaults write com.apple.dock mineffect -string "scale"
+}
 
-# Minimize windows into their application’s icon
-defaults write com.apple.dock minimize-to-application -bool true
-
-# Speed up Mission Control animations
-defaults write com.apple.dock expose-animation-duration -float 0.1
-
-# Remove the auto-hiding Dock delay
-defaults write com.apple.dock autohide-delay -float 0
-
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
-
-# Don’t show recent applications in Dock
-defaults write com.apple.dock show-recents -bool false
-
-## Hot corners
-## Possible values:
-##  0: no-op
-##  2: Mission Control
-##  3: Show application windows
-##  4: Desktop
-##  5: Start screen saver
-##  6: Disable screen saver
-##  7: Dashboard
-## 10: Put display to sleep
-## 11: Launchpad
-## 12: Notification Center
-## 13: Lock Screen
-
-# Top left screen corner
-defaults write com.apple.dock wvous-tl-corner -int 0
-defaults write com.apple.dock wvous-tl-modifier -int 0
-
-# Top right screen corner
-defaults write com.apple.dock wvous-tr-corner -int 0
-defaults write com.apple.dock wvous-tr-modifier -int 0
-
-# Bottom left screen corner
-defaults write com.apple.dock wvous-bl-corner -int 0
-defaults write com.apple.dock wvous-bl-modifier -int 0
-
-# Bottom right screen corner
-defaults write com.apple.dock wvous-br-corner -int 0
-defaults write com.apple.dock wvous-br-modifier -int 0
-
+__more_ui()
 
 ###############################################################################
 ################################# Finder ######################################
 ###############################################################################
 
-echo "Customizing Finder..."
+function __finder() {
 
-# ✅ Set Desktop as the default location for new Finder windows
-defaults write com.apple.finder NewWindowTarget -string "PfDe"
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+	echo "Customizing Finder..."
+	
+	# ✅ Set Desktop as the default location for new Finder windows
+	defaults write com.apple.finder NewWindowTarget -string "PfDe"
+	defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
+	
+	# ✅ Use list view by default
+	defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+	
+	# ✅Show hidden files by default in Finder
+	defaults write com.apple.finder AppleShowAllFiles -bool true
+	
+	# Finder: show path bar
+	defaults write com.apple.finder ShowPathbar -bool true
+	
+	# Disable the warning when changing a file extension
+	defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+	
+	# Avoid creating .DS_Store files on network or USB volumes
+	defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+	defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+	
+	# ✅ Show item info near icons on the desktop and in other icon views
+	/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
+	
+	# ✅ Show item info to the right of the icons on the desktop
+	/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+	
+	# Enable snap-to-grid for icons on the desktop and in other icon views
+	/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+	
+	# ✅ Increase grid spacing for icons on the desktop and in other icon views
+	/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+	/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 
-# ✅ Use list view by default
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+}
 
-# ✅Show hidden files by default in Finder
-defaults write com.apple.finder AppleShowAllFiles -bool true
-
-# Finder: show path bar
-defaults write com.apple.finder ShowPathbar -bool true
-
-# Disable the warning when changing a file extension
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-
-# ✅ Show item info near icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
-
-# ✅ Show item info to the right of the icons on the desktop
-/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
-
-# Enable snap-to-grid for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-
-# ✅ Increase grid spacing for icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+__finder
 
 ################################################################################
 ########################### Safari & WebKit ####################################
