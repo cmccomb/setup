@@ -6,11 +6,14 @@
 
 echo "Setting up your Mac..."
 
-# Prevent them from overriding settings we’re about to change ✅
+# ✅ Prevent them from overriding settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
 
-# Install xcode things ✅
+# ✅ Install xcode things
 xcode-select --install
+
+# ✅ Save the username for later use
+USERNAME=$(who | grep console | awk '{ print $1 }')
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
@@ -18,39 +21,39 @@ xcode-select --install
 
 echo "Installing applications with Homebrew..."
 
-# Install Homebrew if not already present ✅
+# ✅ Install Homebrew if not already present
 if test ! "$(which brew)"; then
 	echo "Installing Homebrew"
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Update Homebrew ✅
+# ✅ Update Homebrew
 brew update
 brew upgrade
 
-# Install installation utilities ✅
+# ✅ Install installation utilities
 brew install mas dockutil
 
-# Install utilities ✅
+# ✅ Install utilities
 brew install wget tree htop trash
 
-# Install Docker and associated tools ✅
+# ✅ Install Docker and associated tools
 brew install docker --cask
 
-# Install code editing tools ✅
+# ✅ Install code editing tools
 brew install jetbrains-toolbox pycharm webstorm rustrover --cask
 
-# Install file and project management ✅
+# ✅ Install file and project management
 brew install box-drive github
 
-# Install collaboration  ✅
+# ✅ Install collaboration
 brew install microsoft-teams zoom --cask
 
-# Install LLM stuff ✅
+# ✅ Install LLM stuff
 brew install llama.cpp
 brew install jan --cask
 
-# Cleanup ✅
+# ✅ Cleanup
 brew cleanup
 
 ###############################################################################
@@ -59,7 +62,7 @@ brew cleanup
 
 echo "Installing applications with the App Store..."
 
-# Function to check if iCloud is signed in
+# ✅ Function to check if iCloud is signed in
 function is_icloud_signed_in() {
   if defaults read MobileMeAccounts | grep -q AccountID; then
     return 0
@@ -68,7 +71,7 @@ function is_icloud_signed_in() {
   fi
 }
 
-# Function to get more info and install an app from the App Store
+# ✅ Function to get more info and install an app from the App Store
 function mas_info_and_install() {
   if is_icloud_signed_in; then
     mas info "$1"
@@ -78,29 +81,29 @@ function mas_info_and_install() {
   fi
 }
 
-# Install developer tools ✅
+# ✅ Install developer tools
 mas_info_and_install 497799835 # Xcode
 
-# Install document editing tools ✅
+# ✅ Install document editing tools
 mas_info_and_install 462054704 # Microsoft Word
 mas_info_and_install 462058435 # Microsoft Excel
 mas_info_and_install 462062816 # Microsoft PowerPoint
 
-# Install collaboration tools ✅
+# ✅ Install collaboration tools
 mas_info_and_install 803453959 # Slack
 mas_info_and_install 310633997 # WhatsApp
 
-# Install utilities ✅
+# ✅ Install utilities
 mas_info_and_install 937984704 # Amphetamine
 
-# Uninstall weird Apple stuff ✅
+# ✅ Uninstall weird Apple stuff
 sudo mas uninstall 409183694 # Keynote
 sudo mas uninstall 408981434 # iMovie
 sudo mas uninstall 409201541 # Pages
 sudo mas uninstall 682658836 # GarageBand
 sudo mas uninstall 409203825 # Numbers
 
-# Securely empty the trash ✅
+# ✅ Securely empty the trash
 trash -y -s
 
 ###############################################################################
@@ -109,7 +112,7 @@ trash -y -s
 
 echo "Installing applications as PWAs..."
 
-# Function to make a PWA ✅
+# ✅ Function to make a PWA
 function make_pwa {
 	osascript <<EOF
     tell application "Safari"
@@ -134,13 +137,16 @@ function make_pwa {
 EOF
 }
 
-# Install a Google Calendar PWA ✅
+# ✅ Install a Google Calendar PWA
 make_pwa "https://calendar.google.com/calendar/u/0/r"
 
-# Install a GMail PWA ✅
+# ✅ Install a GMail PWA
 make_pwa "https://mail.google.com/mail/u/0/#inbox"
 
-# Close Safari ✅
+# ✅ Make a Goole Colab PWA
+make_pwa "https://colab.new/"
+
+# ✅ Close Safari
 osascript -e 'tell application "Safari" to quit'
 
 ###############################################################################
@@ -149,7 +155,7 @@ osascript -e 'tell application "Safari" to quit'
 
 echo "Installing AI stuff..."
 
-# Check if ChatGPT is already installed
+# ✅ Check if ChatGPT is already installed
 if [ ! -d "/Applications/ChatGPT.app" ]; then
   # Download the DMG file
   curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
@@ -165,7 +171,7 @@ if [ ! -d "/Applications/ChatGPT.app" ]; then
   rm /tmp/ChatGPT.dmg
 fi
 
-# Install a few of my favorite local LLMs
+# ✅ Install a few of my favorite local LLMs
 llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
 llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
@@ -177,22 +183,14 @@ llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Inst
 
 echo "Setting up the general UI/UX..."
 
-# Disable the sound effects on boot ✅
+# ✅ Disable the sound effects on boot
 sudo nvram StartupMute=%01
 
-# Disable transparency in the menu bar and elsewhere on Yosemite
-sudo defaults write com.apple.universalaccess reduceTransparency -bool true
-
-# Show the battery percentage in the menubar. ✅
-USERNAME=$(who | grep console | awk '{ print $1 }')
+# ✅ Show the battery percentage in the menubar
 sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
 
-# Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`) ✅
+# ✅ Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-
-# Expand print panel by default
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
 # Save to disk (not to iCloud) by default
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
@@ -205,9 +203,6 @@ defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
-
-# Set Help Viewer windows to non-floating mode
-defaults write com.apple.helpviewer DevMode -bool true
 
 ###############################################################################
 ######## Trackpad, mouse, keyboard, Bluetooth accessories, and input ##########
@@ -258,10 +253,10 @@ sudo pmset -a standbydelay 86400
 
 echo "Setting up screenshot parameters..."
 
-# Save screenshots to the desktop ✅
+# ✅ Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
-# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF) ✅
+# ✅ Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
 
 ################################################################################
@@ -328,15 +323,14 @@ defaults write com.apple.dock wvous-br-modifier -int 0
 
 echo "Customizing Finder..."
 
-# Set Desktop as the default location for new Finder windows ✅
-# For other paths, use `PfLo` and `file:///full/path/here/`
+# ✅ Set Desktop as the default location for new Finder windows
 defaults write com.apple.finder NewWindowTarget -string "PfDe"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
 
-# Use list view by default
+# ✅ Use list view by default
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-# Finder: show hidden files by default ✅
+# ✅Show hidden files by default in Finder
 defaults write com.apple.finder AppleShowAllFiles -bool true
 
 # Finder: show path bar
@@ -349,12 +343,12 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-# Show item info near icons on the desktop and in other icon views
+# ✅ Show item info near icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 
-# Show item info to the right of the icons on the desktop
+# ✅ Show item info to the right of the icons on the desktop
 /usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
 
 # Enable snap-to-grid for icons on the desktop and in other icon views
@@ -362,11 +356,10 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
-# Increase grid spacing for icons on the desktop and in other icon views
+# ✅ Increase grid spacing for icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-
 
 ################################################################################
 ########################### Safari & WebKit ####################################
@@ -426,68 +419,34 @@ sudo defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 sudo defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
 ################################################################################
-################################ Spotlight #####################################
-################################################################################
-
-echo "Customizing Spotlight..."
-
-# Change indexing order and disable some search results
-defaults write com.apple.spotlight orderedItems -array \
-	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
-	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
-	'{"enabled" = 1;"name" = "PDF";}' \
-	'{"enabled" = 1;"name" = "DOCUMENTS";}' \
-	'{"enabled" = 1;"name" = "IMAGES";}' \
-	'{"enabled" = 1;"name" = "PRESENTATIONS";}' \
-	'{"enabled" = 1;"name" = "SPREADSHEETS";}' \
-	'{"enabled" = 0;"name" = "FONTS";}' \
-	'{"enabled" = 0;"name" = "MESSAGES";}' \
-	'{"enabled" = 0;"name" = "SYSTEM_PREFS";}' \
-	'{"enabled" = 0;"name" = "CONTACT";}' \
-	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
-	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
-	'{"enabled" = 0;"name" = "MUSIC";}' \
-	'{"enabled" = 0;"name" = "MOVIES";}' \
-	'{"enabled" = 0;"name" = "SOURCE";}'
-
-# Load new settings before rebuilding the index
-killall mds > /dev/null 2>&1
-
-# Make sure indexing is enabled for the main volume
-sudo mdutil -i on / > /dev/null
-
-################################################################################
 ############################### TextEdit #######################################
 ################################################################################
 
 echo "Customizing TextEdit..."
 
-# Use plain text mode for new TextEdit documents
+# ✅ Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
 
 ################################################################################
-############################### App Store ######################################
+############################ Update Schedules ##################################
 ################################################################################
 
-echo "Customizing the App Store..."
+echo "Customizing Update Schedules"
 
-# Enable the automatic update check
-defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+# ✅ Download automatically
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool TRUE
 
-# Check for software updates daily, not just once per week
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+# ✅ Install MacOS Updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool TRUE
 
-# Download newly available updates in background
-defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+# ✅ Install Config Data
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool TRUE
 
-# Install System data files & security updates
-defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+# ✅ Install critical updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool TRUE
 
-# Automatically download apps purchased on other Macs
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
-
-# Turn on app auto-update
-defaults write com.apple.commerce AutoUpdate -bool true
+# ✅ Turn on app auto-update
+sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool TRUE
 
 ###############################################################################
 ############################## Photos #########################################
@@ -504,10 +463,10 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 echo "Customizing the Dock..."
 
-# Remove all dock items ✅
+# ✅ Remove all dock items
 dockutil --remove all
 
-# Add back apps in the order we care about ✅
+# ✅ Add back apps in the order we care about
 dockutil --add /System/Applications/System\ Settings.app --no-restart
 dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
 dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
@@ -518,6 +477,7 @@ dockutil --add /System/Applications/Reminders.app --no-restart
 dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 
-# Add links to desktop and Box ✅
+# ✅ Add links to desktop and Box
+dockutil --add "/" --view grid --display list --no-restart
 dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
 dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
