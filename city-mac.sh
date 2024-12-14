@@ -12,6 +12,19 @@ osascript -e 'tell application "System Preferences" to quit'
 # ✅ Install xcode things
 xcode-select --install
 
+# Loop until developer tools are fully installed
+echo "Waiting for Xcode developer tools to finish installing..."
+while true; do
+    # Check if the tools are installed
+    if xcode-select -p &> /dev/null; then
+        echo "Xcode developer tools are successfully installed!"
+        break
+    else
+        echo "Developer tools are still installing. Checking again in 10 seconds..."
+        sleep 10
+    fi
+done
+
 # ✅ Save the username for later use
 USERNAME=$(who | grep console | awk '{ print $1 }')
 
