@@ -81,6 +81,18 @@ function mas_info_and_install() {
   fi
 }
 
+# ✅ Uninstall weird Apple stuff
+if is_icloud_signed_in; then
+  sudo mas uninstall 409183694 # Keynote
+  sudo mas uninstall 408981434 # iMovie
+  sudo mas uninstall 409201541 # Pages
+  sudo mas uninstall 682658836 # GarageBand
+  sudo mas uninstall 409203825 # Numbers
+
+  # ✅ Upgrade files
+  sudo mas upgrade
+fi
+
 # ✅ Install developer tools
 mas_info_and_install 497799835 # Xcode
 
@@ -96,13 +108,6 @@ mas_info_and_install 310633997 # WhatsApp
 # ✅ Install utilities
 mas_info_and_install 937984704 # Amphetamine
 
-# ✅ Uninstall weird Apple stuff
-sudo mas uninstall 409183694 # Keynote
-sudo mas uninstall 408981434 # iMovie
-sudo mas uninstall 409201541 # Pages
-sudo mas uninstall 682658836 # GarageBand
-sudo mas uninstall 409203825 # Numbers
-
 # ✅ Securely empty the trash
 trash -y -s
 
@@ -117,7 +122,7 @@ function make_pwa {
 	osascript <<EOF
     tell application "Safari"
       activate
-      open location "$1" -- The URL of the website you want to make a PWA
+      open location "$1" -- The URL of the website you want to make a PWA of
       delay 1.0 -- Allow time for Safari to open the page
     end tell
 
@@ -155,7 +160,7 @@ osascript -e 'tell application "Safari" to quit'
 
 echo "Installing AI stuff..."
 
-# ✅ Check if ChatGPT is already installed
+# ✅ Check if ChatGPT is already installed, and install if not
 if [ ! -d "/Applications/ChatGPT.app" ]; then
   # Download the DMG file
   curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
@@ -478,6 +483,6 @@ dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 
 # ✅ Add links to desktop and Box
-dockutil --add "/" --view grid --display list --no-restart
+dockutil --add "/" --view grid --display folder --no-restart
 dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
 dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
