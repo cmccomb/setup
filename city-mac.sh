@@ -15,6 +15,9 @@ xcode-select --install
 # ✅ Save the username for later use
 USERNAME=$(who | grep console | awk '{ print $1 }')
 
+# ✅ Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 ###############################################################################
 ################### Install Applications with Homebrew ########################
 ###############################################################################
