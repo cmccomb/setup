@@ -430,6 +430,12 @@ function __finder() {
 	
 	# ✅Show hidden files by default in Finder
 	defaults write com.apple.finder AppleShowAllFiles -bool true
+
+	# ✅ Make iCloud load desktop files
+ 	defaults write com.apple.finder ShowSidebar -bool true
+ 	defaults write com.apple.finder SidebarShowingiCloudDesktop -bool true
+  	defaults write com.apple.finder FXICloudDriveDesktop -bool true
+  	defaults write com.apple.finder FXICloudDriveDocuments -bool true
 	
 	# Finder: show path bar
 	defaults write com.apple.finder ShowPathbar -bool true
