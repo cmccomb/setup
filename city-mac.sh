@@ -12,6 +12,7 @@ function __mise_en_place() {
 	osascript -e 'tell application "System Preferences" to quit'
 	
 	# ✅ Install xcode things
+	sudo xcodebuild -license
 	xcode-select --install
 	
 	# Loop until developer tools are fully installed
@@ -584,6 +585,34 @@ function __photos() {
 }
 
 __photos
+
+
+###############################################################################
+############################## Terminal #######################################
+###############################################################################
+function __terminal() {
+	
+	echo "Customizing Terminal..."
+
+ 	# ✅ Make a new settings file
+	defaults write com.apple.Terminal "Window Settings" -dict-add "Chris" '
+	{
+	    CommandString = "";
+	    FontAntialias = 1;
+	    FontWidthSpacing = "1.004032258064516";
+	    ProfileCurrentVersion = "2.07";
+	    RunCommandAsShell = 1;
+	    name = Chris;
+	    shellExitAction = 0;
+	    type = "Window Settings";
+	}'
+
+ 	# ✅ Make the Chris profile the default
+	defaults write com.apple.Terminal "Default Window Settings" "Chris"
+
+}
+
+__terminal
 
 ###############################################################################
 ########################## Setup The Dock #####################################
