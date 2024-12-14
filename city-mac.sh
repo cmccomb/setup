@@ -101,13 +101,31 @@ function mas_info_and_install() {
   fi
 }
 
+# ✅ Function to uninstall an app only if it exists
+function check_and_uninstall() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: uninstall_app_by_id <APP_ID>"
+        return 1
+    fi
+
+    local app_id=$1
+
+    if ! mas list | grep -q "$app_id"; then
+        echo "App with ID $app_id is not installed."
+        return 1
+    fi
+
+    echo "Uninstalling app with ID $app_id..."
+    mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
+}
+
 # ✅ Uninstall weird Apple stuff
 if is_icloud_signed_in; then
-  sudo mas uninstall 409183694 # Keynote
-  sudo mas uninstall 408981434 # iMovie
-  sudo mas uninstall 409201541 # Pages
-  sudo mas uninstall 682658836 # GarageBand
-  sudo mas uninstall 409203825 # Numbers
+  sudo check_and_uninstall 409183694 # Keynote
+  sudo check_and_uninstall 408981434 # iMovie
+  sudo check_and_uninstall 409201541 # Pages
+  sudo check_and_uninstall 682658836 # GarageBand
+  sudo check_and_uninstall 409203825 # Numbers
 
   # ✅ Upgrade files
   sudo mas upgrade
