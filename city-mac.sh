@@ -4,150 +4,164 @@
 ############################ Mise en place ####################################
 ###############################################################################
 
-echo "Setting up your Mac..."
+function __mise() {
+	echo "Setting up your Mac..."
+	
+	# ✅ Prevent them from overriding settings we’re about to change
+	osascript -e 'tell application "System Preferences" to quit'
+	
+	# ✅ Install xcode things
+	xcode-select --install
+	
+	# Loop until developer tools are fully installed
+	echo "Waiting for Xcode developer tools to finish installing..."
+	while true; do
+	    # Check if the tools are installed
+	    if xcode-select -p &> /dev/null; then
+	        echo "Xcode developer tools are successfully installed!"
+	        break
+	    else
+	        echo "Developer tools are still installing. Checking again in 10 seconds..."
+	        sleep 10
+	    fi
+	done
+	
+	# ✅ Install oh-my-zsh
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# ✅ Prevent them from overriding settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
+	# ✅ Save the username for later use
+	USERNAME=$(id -un)	
+}
 
-# ✅ Install xcode things
-xcode-select --install
-
-# Loop until developer tools are fully installed
-echo "Waiting for Xcode developer tools to finish installing..."
-while true; do
-    # Check if the tools are installed
-    if xcode-select -p &> /dev/null; then
-        echo "Xcode developer tools are successfully installed!"
-        break
-    else
-        echo "Developer tools are still installing. Checking again in 10 seconds..."
-        sleep 10
-    fi
-done
-
-# ✅ Save the username for later use
-USERNAME=$(id -un)
-
-# ✅ Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+__mise
 
 ###############################################################################
 ################### Install Applications with Homebrew ########################
 ###############################################################################
 
-echo "Installing applications with Homebrew..."
+function __brew() {
+	echo "Installing applications with Homebrew..."
+	
+	if test ! "$(which brew)"; then
+		# ✅ Install Homebrew if not already present
+		echo "Installing Homebrew"
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# ✅ Install Homebrew if not already present
-if test ! "$(which brew)"; then
-	echo "Installing Homebrew"
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+		# ✅  Add Homebrew to Path
+		echo >> /Users/"$USERNAME"/.zprofile
+		echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/work/.zprofile
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+	fi
+	
+	# ✅ Update Homebrew
+	brew update
+	brew upgrade
+	
+	# ✅ Install installation utilities
+	brew install mas dockutil
+	
+	# ✅ Install utilities
+	brew install wget tree htop trash
+	
+	# ✅ Install Docker and associated tools
+	brew install docker --cask
+	
+	# ✅ Install code editing tools
+	brew install jetbrains-toolbox pycharm webstorm rustrover --cask
+	
+	# ✅ Install file and project management
+	brew install box-drive github
+	
+	# ✅ Install collaboration
+	brew install microsoft-teams zoom --cask
+	
+	# ✅ Install LLM stuff
+	brew install llama.cpp
+	brew install jan --cask
+	
+	# ✅ Cleanup
+	brew cleanup
+}
 
-echo >> /Users/"$USERNAME"/.zprofile
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/work/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# ✅ Update Homebrew
-brew update
-brew upgrade
-
-# ✅ Install installation utilities
-brew install mas dockutil
-
-# ✅ Install utilities
-brew install wget tree htop trash
-
-# ✅ Install Docker and associated tools
-brew install docker --cask
-
-# ✅ Install code editing tools
-brew install jetbrains-toolbox pycharm webstorm rustrover --cask
-
-# ✅ Install file and project management
-brew install box-drive github
-
-# ✅ Install collaboration
-brew install microsoft-teams zoom --cask
-
-# ✅ Install LLM stuff
-brew install llama.cpp
-brew install jan --cask
-
-# ✅ Cleanup
-brew cleanup
+ __brew
 
 ###############################################################################
 ################### Install Applications with App Store #######################
 ###############################################################################
 
-echo "Installing applications with the App Store..."
+function __mas() {
 
-# ✅ Function to check if iCloud is signed in
-function is_icloud_signed_in() {
-  if defaults read MobileMeAccounts | grep -q AccountID; then
-    return 0
-  else
-    return 1
-  fi
+	echo "Installing applications with the App Store..."
+	
+	# ✅ Function to check if iCloud is signed in
+	function is_icloud_signed_in() {
+	  if defaults read MobileMeAccounts | grep -q AccountID; then
+	    return 0
+	  else
+	    return 1
+	  fi
+	}
+	
+	# ✅ Function to get more info and install an app from the App Store
+	function mas_info_and_install() {
+	  if is_icloud_signed_in; then
+	    mas info "$1"
+	    mas install "$1"
+	  else
+	    echo "iCloud is not signed in. Skipping installation."
+	  fi
+	}
+	
+	# ✅ Function to uninstall an app only if it exists
+	function check_and_uninstall() {
+		if [[ -z "$1" ]]; then
+			echo "Usage: uninstall_app_by_id <APP_ID>"
+			return 1
+		fi
+		
+		local app_id=$1
+		
+		if ! mas list | grep -q "$app_id"; then
+			echo "App with ID $app_id is not installed."
+			return 1
+		fi
+		
+		echo "Uninstalling app with ID $app_id..."
+		mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
+	}
+	
+	# ✅ Uninstall weird Apple stuff
+	if is_icloud_signed_in; then
+		sudo check_and_uninstall 409183694 # Keynote
+		sudo check_and_uninstall 408981434 # iMovie
+		sudo check_and_uninstall 409201541 # Pages
+		sudo check_and_uninstall 682658836 # GarageBand
+		sudo check_and_uninstall 409203825 # Numbers
+		
+		# ✅ Upgrade files
+		sudo mas upgrade
+	fi
+	
+	# ✅ Install developer tools
+	mas_info_and_install 497799835 # Xcode
+	
+	# ✅ Install document editing tools
+	mas_info_and_install 462054704 # Microsoft Word
+	mas_info_and_install 462058435 # Microsoft Excel
+	mas_info_and_install 462062816 # Microsoft PowerPoint
+	
+	# ✅ Install collaboration tools
+	mas_info_and_install 803453959 # Slack
+	mas_info_and_install 310633997 # WhatsApp
+	
+	# ✅ Install utilities
+	mas_info_and_install 937984704 # Amphetamine
+	
+	# ✅ Securely empty the trash
+	trash -y -s
 }
 
-# ✅ Function to get more info and install an app from the App Store
-function mas_info_and_install() {
-  if is_icloud_signed_in; then
-    mas info "$1"
-    mas install "$1"
-  else
-    echo "iCloud is not signed in. Skipping installation."
-  fi
-}
-
-# ✅ Function to uninstall an app only if it exists
-function check_and_uninstall() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: uninstall_app_by_id <APP_ID>"
-        return 1
-    fi
-
-    local app_id=$1
-
-    if ! mas list | grep -q "$app_id"; then
-        echo "App with ID $app_id is not installed."
-        return 1
-    fi
-
-    echo "Uninstalling app with ID $app_id..."
-    mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
-}
-
-# ✅ Uninstall weird Apple stuff
-if is_icloud_signed_in; then
-  sudo check_and_uninstall 409183694 # Keynote
-  sudo check_and_uninstall 408981434 # iMovie
-  sudo check_and_uninstall 409201541 # Pages
-  sudo check_and_uninstall 682658836 # GarageBand
-  sudo check_and_uninstall 409203825 # Numbers
-
-  # ✅ Upgrade files
-  sudo mas upgrade
-fi
-
-# ✅ Install developer tools
-mas_info_and_install 497799835 # Xcode
-
-# ✅ Install document editing tools
-mas_info_and_install 462054704 # Microsoft Word
-mas_info_and_install 462058435 # Microsoft Excel
-mas_info_and_install 462062816 # Microsoft PowerPoint
-
-# ✅ Install collaboration tools
-mas_info_and_install 803453959 # Slack
-mas_info_and_install 310633997 # WhatsApp
-
-# ✅ Install utilities
-mas_info_and_install 937984704 # Amphetamine
-
-# ✅ Securely empty the trash
-trash -y -s
+__mas
 
 ###############################################################################
 ################### Install Applications as PWAs ##############################
