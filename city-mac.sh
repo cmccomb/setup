@@ -564,6 +564,7 @@ function __dock() {
 	dockutil --add /System/Applications/Reminders.app --no-restart
 	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
+	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/ --no-restart
 	
 	# ✅ Add links to desktop and Box
 	dockutil --add "/" --view grid --display folder --no-restart
