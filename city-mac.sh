@@ -167,11 +167,13 @@ __mas
 ################### Install Applications as PWAs ##############################
 ###############################################################################
 
-echo "Installing applications as PWAs..."
+function pwa() {
 
-# ✅ Function to make a PWA
-function make_pwa {
-	osascript <<EOF
+	echo "Installing applications as PWAs..."
+	
+	# ✅ Function to make a PWA
+	function make_pwa {
+		osascript <<EOF
     tell application "Safari"
       activate
       open location "$1" -- The URL of the website you want to make a PWA of
@@ -180,59 +182,66 @@ function make_pwa {
 
     tell application "System Events"
       tell process "Safari"
-        click menu bar item "File" of menu bar 1 -- Open the "File" menu
-        delay 0.5 -- Allow the menu to appear
+	click menu bar item "File" of menu bar 1 -- Open the "File" menu
+	delay 0.5 -- Allow the menu to appear
 
-        -- Select "Add to Dock…" menu item
-        click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
+	-- Select "Add to Dock…" menu item
+	click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
 
-        -- Hit "Enter" to confirm in case a modal dialog appears
-        delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
-        keystroke return -- Hit "Enter" to confirm
+	-- Hit "Enter" to confirm in case a modal dialog appears
+	delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
+	keystroke return -- Hit "Enter" to confirm
       end tell
     end tell
 EOF
-}
+	}
+	
+	# ✅ Install a Google Calendar PWA
+	make_pwa "https://calendar.google.com/calendar/u/0/r"
+	
+	# ✅ Install a GMail PWA
+	make_pwa "https://mail.google.com/mail/u/0/#inbox"
+	
+	# ✅ Make a Goole Colab PWA
+	make_pwa "https://colab.new/"
+	
+	# ✅ Close Safari
+	osascript -e 'tell application "Safari" to quit'
+ }
 
-# ✅ Install a Google Calendar PWA
-make_pwa "https://calendar.google.com/calendar/u/0/r"
-
-# ✅ Install a GMail PWA
-make_pwa "https://mail.google.com/mail/u/0/#inbox"
-
-# ✅ Make a Goole Colab PWA
-make_pwa "https://colab.new/"
-
-# ✅ Close Safari
-osascript -e 'tell application "Safari" to quit'
+ __pwa
 
 ###############################################################################
 ############################### AI Stuff ######################################
 ###############################################################################
 
-echo "Installing AI stuff..."
+function __ai_stuff() {
+	echo "Installing AI stuff..."
+	
+	# ✅ Check if ChatGPT is already installed, and install if not
+	if [ ! -d "/Applications/ChatGPT.app" ]; then
+		# Download the DMG file
+		curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
+		
+		# Mount the DMG file
+		hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
+		
+		# Copy the app to the Applications folder
+		cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
+		
+		# Unmount the DMG file and clean up
+		hdiutil detach /Volumes/ChatGPT -quiet
+		rm /tmp/ChatGPT.dmg
+	fi
+	
+	# ✅ Install a few of my favorite local LLMs
+	llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
+	llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
+	llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
+	llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
+}
 
-# ✅ Check if ChatGPT is already installed, and install if not
-if [ ! -d "/Applications/ChatGPT.app" ]; then
-  # Download the DMG file
-  curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
-
-  # Mount the DMG file
-  hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
-
-  # Copy the app to the Applications folder
-  cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
-
-  # Unmount the DMG file and clean up
-  hdiutil detach /Volumes/ChatGPT -quiet
-  rm /tmp/ChatGPT.dmg
-fi
-
-# ✅ Install a few of my favorite local LLMs
-llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
-llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
-llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
-llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
+__ai_stuff
 
 ###############################################################################
 #############################  General UI/UX  #################################
@@ -421,120 +430,146 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 ################################################################################
 ########################### Safari & WebKit ####################################
 ################################################################################
+function __safari() {
 
-echo "Customizing Safari..."
+	echo "Customizing Safari..."
+	
+	# Privacy: don’t send search queries to Apple
+	sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false
+	sudo defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+	
+	# Prevent Safari from opening ‘safe’ files automatically after downloading
+	sudo defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+	
+	# Hide Safari’s bookmarks bar by default
+	sudo defaults write com.apple.Safari ShowFavoritesBar -bool false
+	
+	# Hide Safari’s sidebar in Top Sites
+	sudo defaults write com.apple.Safari ShowSidebarInTopSites -bool false
+	
+	# Enable Safari’s debug menu
+	sudo defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+	
+	# Make Safari’s search banners default to Contains instead of Starts With
+	sudo defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
+	
+	# Enable the Develop menu and the Web Inspector in Safari
+	sudo defaults write com.apple.Safari IncludeDevelopMenu -bool true
+	sudo defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+	sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+	
+	# Add a context menu item for showing the Web Inspector in web views
+	defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+	
+	# Enable continuous spellchecking
+	sudo defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+	
+	# Disable auto-correct
+	sudo defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+	
+	# Warn about fraudulent websites
+	sudo defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
+	
+	# Disable Java
+	sudo defaults write com.apple.Safari WebKitJavaEnabled -bool false
+	sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
+	sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
+	
+	# Block pop-up windows
+	sudo defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
+	sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
+	
+	# Enable “Do Not Track”
+	sudo defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+	
+	# Update extensions automatically
+	sudo defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true\
 
-# Privacy: don’t send search queries to Apple
-sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false
-sudo defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+}
 
-# Prevent Safari from opening ‘safe’ files automatically after downloading
-sudo defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+__safari
 
-# Hide Safari’s bookmarks bar by default
-sudo defaults write com.apple.Safari ShowFavoritesBar -bool false
-
-# Hide Safari’s sidebar in Top Sites
-sudo defaults write com.apple.Safari ShowSidebarInTopSites -bool false
-
-# Enable Safari’s debug menu
-sudo defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-
-# Make Safari’s search banners default to Contains instead of Starts With
-sudo defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
-
-# Enable the Develop menu and the Web Inspector in Safari
-sudo defaults write com.apple.Safari IncludeDevelopMenu -bool true
-sudo defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-
-# Add a context menu item for showing the Web Inspector in web views
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-
-# Enable continuous spellchecking
-sudo defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
-
-# Disable auto-correct
-sudo defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
-
-# Warn about fraudulent websites
-sudo defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
-
-# Disable Java
-sudo defaults write com.apple.Safari WebKitJavaEnabled -bool false
-sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
-sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
-
-# Block pop-up windows
-sudo defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
-sudo defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
-
-# Enable “Do Not Track”
-sudo defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
-
-# Update extensions automatically
-sudo defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
 ################################################################################
 ############################### TextEdit #######################################
 ################################################################################
+function __textedit() {
+	
+	echo "Customizing TextEdit..."
+	
+	# ✅ Use plain text mode for new TextEdit documents
+	defaults write com.apple.TextEdit RichText -int 0
 
-echo "Customizing TextEdit..."
+}
 
-# ✅ Use plain text mode for new TextEdit documents
-defaults write com.apple.TextEdit RichText -int 0
+__textedit
 
 ################################################################################
 ############################ Update Schedules ##################################
 ################################################################################
+function __updates() {
+		
+	echo "Customizing Update Schedules"
+	
+	# ✅ Download automatically
+	sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool TRUE
+	
+	# ✅ Install MacOS Updates
+	sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool TRUE
+	
+	# ✅ Install Config Data
+	sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool TRUE
+	
+	# ✅ Install critical updates
+	sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool TRUE
+	
+	# ✅ Turn on app auto-update
+	sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool TRUE
+}
 
-echo "Customizing Update Schedules"
-
-# ✅ Download automatically
-sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool TRUE
-
-# ✅ Install MacOS Updates
-sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool TRUE
-
-# ✅ Install Config Data
-sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool TRUE
-
-# ✅ Install critical updates
-sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool TRUE
-
-# ✅ Turn on app auto-update
-sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool TRUE
+__updates
 
 ###############################################################################
 ############################## Photos #########################################
 ###############################################################################
+function __photos() {
+	
+	echo "Customizing Photos..."
+	
+	# Prevent Photos from opening automatically when devices are plugged in
+	defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
-echo "Customizing Photos..."
+}
 
-# Prevent Photos from opening automatically when devices are plugged in
-defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+__photos
 
 ###############################################################################
 ########################## Setup The Dock #####################################
 ###############################################################################
 
-echo "Customizing the Dock..."
+function __dock() {
+	
+	echo "Customizing the Dock..."
+	
+	# ✅ Remove all dock items
+	dockutil --remove all
+	
+	# ✅ Add back apps in the order we care about
+	dockutil --add /System/Applications/System\ Settings.app --no-restart
+	dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
+	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
+	dockutil --add /System/Applications/Messages.app --no-restart
+	dockutil --add /Applications/Slack.app --no-restart
+	dockutil --add /System/Applications/Notes.app --no-restart
+	dockutil --add /System/Applications/Reminders.app --no-restart
+	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
+	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
+	
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
 
-# ✅ Remove all dock items
-dockutil --remove all
+}
 
-# ✅ Add back apps in the order we care about
-dockutil --add /System/Applications/System\ Settings.app --no-restart
-dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
-dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
-dockutil --add /System/Applications/Messages.app --no-restart
-dockutil --add /Applications/Slack.app --no-restart
-dockutil --add /System/Applications/Notes.app --no-restart
-dockutil --add /System/Applications/Reminders.app --no-restart
-dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
-dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
-
-# ✅ Add links to desktop and Box
-dockutil --add "/" --view grid --display folder --no-restart
-dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
-dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
+__dock
