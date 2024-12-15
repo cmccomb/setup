@@ -18,8 +18,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Make work.sh
-      run: source build.sh
+      run: zsh build.sh
     - name: Run work.sh script
-      run: |
-        chmod +x work.sh
-        ./work.sh
+      run: zsh work.sh
