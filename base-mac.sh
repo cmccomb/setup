@@ -655,6 +655,3 @@ function __country_dock() {
 	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
 
 }
-
-# Run the main function
-__main
