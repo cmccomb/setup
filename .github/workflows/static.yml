@@ -6,9 +6,9 @@ on:
   push:
     branches: ["main"]
     paths:
-    - personal-stub.sh
-    - work-stub.sh
-    - base-mac.sh
+    - personal-setup.sh
+    - work-setup.sh
+    - base.sh
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,10 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Make personal.sh
-        run: cat base-mac.sh personal-stub.sh > personal.sh
-      - name: Make work.sh
-        run: cat base-mac.sh work-stub.sh > work.sh
+      - name: Make scripts to serve
+        run: source build.sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

@@ -1,0 +1,1 @@
+cat base-mac.sh personal-stub.sh > personal.sh

@@ -5,8 +5,8 @@ on:
   push:
     branches: ["main"]
     paths:
-    - personal-stub.sh
-    - base-mac.sh
+    - personal-setup.sh
+    - base.sh
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Make personal.sh
-      run: cat base-mac.sh personal-stub.sh > personal.sh
+      run: source build.sh
     - name: Run personal.sh script
       run: |
         chmod +x personal.sh
