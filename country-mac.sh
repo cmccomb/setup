@@ -8,7 +8,6 @@ __mise_en_place
 __install_via_brew
 __install_via_mas
 __install_as_pwa
-__ai_stuff
 __general_uiux
 __general_io
 __energy
@@ -19,5 +18,4 @@ __safari
 __textedit
 __updates
 __photos
-__terminal
-__dock
+__country_dock

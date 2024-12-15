@@ -38,7 +38,7 @@ function __mise_en_place() {
 ################### Install Applications with Homebrew ########################
 ###############################################################################
 
-function __install_via_brew() {
+function __install_brew() {
 	echo "Installing applications with Homebrew..."
 
 	if test ! "$(which brew)"; then
@@ -46,21 +46,33 @@ function __install_via_brew() {
 		echo "Installing Homebrew"
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-		# ✅  Add Homebrew to Path
+		# ✅ Add Homebrew to Path
 		echo >>/Users/"$USERNAME"/.zprofile
-		echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>/Users/work/.zprofile
+		echo "eval '$(/opt/homebrew/bin/brew shellenv)'" >>/Users/work/.zprofile
 		eval "$(/opt/homebrew/bin/brew shellenv)"
 	fi
 
 	# ✅ Update Homebrew
 	brew update
 	brew upgrade
+}
+
+function __install_via_brew() {
+
+  # ✅ Install Homebrew if needed
+  __install_brew
 
 	# ✅ Install installation utilities
 	brew install mas dockutil
 
 	# ✅ Install utilities
 	brew install coreutils wget tree htop trash
+
+	# ✅ Cleanup
+	brew cleanup
+}
+
+function __install_via_brew_for_work_too() {
 
 	# ✅ Install Docker and associated tools
 	brew install --cask docker
@@ -80,79 +92,88 @@ function __install_via_brew() {
 
 	# ✅ Cleanup
 	brew cleanup
+
 }
 
 ###############################################################################
 ################### Install Applications with App Store #######################
 ###############################################################################
 
+# ✅ Function to check if iCloud is signed in
+function __is_icloud_signed_in() {
+  if defaults read MobileMeAccounts | grep -q AccountID; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# ✅ Function to get more info and install an app from the App Store
+function __mas_info_and_install() {
+  if is_icloud_signed_in; then
+    mas info "$1"
+    mas install "$1"
+  else
+    echo "iCloud is not signed in. Skipping installation."
+  fi
+}
+
+# ✅ Function to uninstall an app only if it exists
+function __check_and_uninstall() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: uninstall_app_by_id <APP_ID>"
+    return 1
+  fi
+
+  local app_id=$1
+
+  if ! mas list | grep -q "$app_id"; then
+    echo "App with ID $app_id is not installed."
+    return 1
+  fi
+
+  echo "Uninstalling app with ID $app_id..."
+  mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
+}
+
 function __install_via_mas() {
 
 	echo "Installing applications with the App Store..."
 
-	# ✅ Function to check if iCloud is signed in
-	function is_icloud_signed_in() {
-		if defaults read MobileMeAccounts | grep -q AccountID; then
-			return 0
-		else
-			return 1
-		fi
-	}
-
-	# ✅ Function to get more info and install an app from the App Store
-	function mas_info_and_install() {
-		if is_icloud_signed_in; then
-			mas info "$1"
-			mas install "$1"
-		else
-			echo "iCloud is not signed in. Skipping installation."
-		fi
-	}
-
-	# ✅ Function to uninstall an app only if it exists
-	function check_and_uninstall() {
-		if [[ -z "$1" ]]; then
-			echo "Usage: uninstall_app_by_id <APP_ID>"
-			return 1
-		fi
-
-		local app_id=$1
-
-		if ! mas list | grep -q "$app_id"; then
-			echo "App with ID $app_id is not installed."
-			return 1
-		fi
-
-		echo "Uninstalling app with ID $app_id..."
-		mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
-	}
-
 	# ✅ Uninstall weird Apple stuff
-	if is_icloud_signed_in; then
-		check_and_uninstall 409183694 # Keynote
-		check_and_uninstall 408981434 # iMovie
-		check_and_uninstall 409201541 # Pages
-		check_and_uninstall 682658836 # GarageBand
-		check_and_uninstall 409203825 # Numbers
+	if __is_icloud_signed_in; then
+		__check_and_uninstall 409183694 # Keynote
+		__check_and_uninstall 408981434 # iMovie
+		__check_and_uninstall 409201541 # Pages
+		__check_and_uninstall 682658836 # GarageBand
+		__check_and_uninstall 409203825 # Numbers
 
 		# ✅ Upgrade files
 		sudo mas upgrade
 	fi
 
-	# ✅ Install developer tools
-	mas_info_and_install 497799835 # Xcode
-
-	# ✅ Install document editing tools
-	mas_info_and_install 462054704 # Microsoft Word
-	mas_info_and_install 462058435 # Microsoft Excel
-	mas_info_and_install 462062816 # Microsoft PowerPoint
-
 	# ✅ Install collaboration tools
-	mas_info_and_install 803453959 # Slack
-	mas_info_and_install 310633997 # WhatsApp
+	__mas_info_and_install 310633997 # WhatsApp
 
 	# ✅ Install utilities
-	mas_info_and_install 937984704 # Amphetamine
+	__mas_info_and_install 937984704 # Amphetamine
+
+	# ✅ Securely empty the trash
+	trash -y -s
+}
+
+function __install_via_mas_for_work_too() {
+
+	# ✅ Install developer tools
+	__mas_info_and_install 497799835 # Xcode
+
+	# ✅ Install document editing tools
+	__mas_info_and_install 462054704 # Microsoft Word
+	__mas_info_and_install 462058435 # Microsoft Excel
+	__mas_info_and_install 462062816 # Microsoft PowerPoint
+
+	# ✅ Install collaboration tools
+	__mas_info_and_install 803453959 # Slack
 
 	# ✅ Securely empty the trash
 	trash -y -s
@@ -162,43 +183,49 @@ function __install_via_mas() {
 ################### Install Applications as PWAs ##############################
 ###############################################################################
 
+# ✅ Function to make a PWA
+function __make_pwa {
+  osascript <<EOF
+  tell application "Safari"
+    activate
+    open location "$1" -- The URL of the website you want to make a PWA of
+    delay 1.0 -- Allow time for Safari to open the page
+  end tell
+
+  tell application "System Events"
+    tell process "Safari"
+click menu bar item "File" of menu bar 1 -- Open the "File" menu
+delay 0.5 -- Allow the menu to appear
+
+-- Select "Add to Dock…" menu item
+click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
+
+-- Hit "Enter" to confirm in case a modal dialog appears
+delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
+keystroke return -- Hit "Enter" to confirm
+    end tell
+  end tell
+EOF
+}
+
 function __install_as_pwa() {
 
 	echo "Installing applications as PWAs..."
 
-	# ✅ Function to make a PWA
-	function make_pwa {
-		osascript <<EOF
-    tell application "Safari"
-      activate
-      open location "$1" -- The URL of the website you want to make a PWA of
-      delay 1.0 -- Allow time for Safari to open the page
-    end tell
+	# ✅ Install a GMail PWA
+	__make_pwa "https://mail.google.com/mail/u/0/#inbox"
 
-    tell application "System Events"
-      tell process "Safari"
-	click menu bar item "File" of menu bar 1 -- Open the "File" menu
-	delay 0.5 -- Allow the menu to appear
+	# ✅ Close Safari
+	osascript -e 'tell application "Safari" to quit'
+}
 
-	-- Select "Add to Dock…" menu item
-	click menu item "Add to Dock…" of menu 1 of menu bar item "File" of menu bar 1
-
-	-- Hit "Enter" to confirm in case a modal dialog appears
-	delay 1.0 -- Allow time for the modal to appear and for the thumbnail to load
-	keystroke return -- Hit "Enter" to confirm
-      end tell
-    end tell
-EOF
-	}
+function __install_as_pwa_for_work_too() {
 
 	# ✅ Install a Google Calendar PWA
-	make_pwa "https://calendar.google.com/calendar/u/0/r"
-
-	# ✅ Install a GMail PWA
-	make_pwa "https://mail.google.com/mail/u/0/#inbox"
+	__make_pwa "https://calendar.google.com/calendar/u/0/r"
 
 	# ✅ Make a Goole Colab PWA
-	make_pwa "https://colab.new/"
+	__make_pwa "https://colab.new/"
 
 	# ✅ Close Safari
 	osascript -e 'tell application "Safari" to quit'
@@ -233,6 +260,7 @@ function __ai_stuff() {
 	llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
 	llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
 }
+
 ###############################################################################
 #############################  General UI/UX  #################################
 ###############################################################################
@@ -581,7 +609,7 @@ function __terminal() {
 ########################## Setup The Dock #####################################
 ###############################################################################
 
-function __dock() {
+function __city_dock() {
 
 	echo "Customizing the Dock..."
 
@@ -599,6 +627,27 @@ function __dock() {
 	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/ --no-restart
+
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
+
+}
+
+
+function __country_dock() {
+
+	echo "Customizing the Dock..."
+
+	# ✅ Remove all dock items
+	dockutil --remove all
+
+	# ✅ Add back apps in the order we care about
+	dockutil --add /System/Applications/System\ Settings.app --no-restart
+	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
+	dockutil --add /System/Applications/Messages.app --no-restart
+	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
 
 	# ✅ Add links to desktop and Box
 	dockutil --add "/" --view grid --display folder --no-restart
