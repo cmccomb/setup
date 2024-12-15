@@ -1,6 +1,6 @@
 # Setup your mac, my way
-[![Test city-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-city-mac-sh.yml)
-[![Test country-mac.sh](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-country-mac-sh.yml)
+[![Test work.sh](https://github.com/cmccomb/setup/actions/workflows/test-work.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-work.yml)
+[![Test personal.sh](https://github.com/cmccomb/setup/actions/workflows/test-personal.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-personal.yml)
 
 This repo contains a heavily opinionated setup script for my Macs. To use this script, simply run:
     
