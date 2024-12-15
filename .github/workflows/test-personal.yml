@@ -1,4 +1,4 @@
-name: Test personal-stub.sh
+name: Test personal.sh
 
 on:
   # Runs on pushes targeting the default branch

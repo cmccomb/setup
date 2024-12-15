@@ -635,7 +635,6 @@ function __city_dock() {
 
 }
 
-
 function __country_dock() {
 
 	echo "Customizing the Dock..."
