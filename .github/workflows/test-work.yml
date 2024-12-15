@@ -1,11 +1,11 @@
-name: Test country-mac.sh
+name: Test work-stub.sh
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
     paths:
-    - country-mac.sh
+    - work-stub.sh
     - base-mac.sh
 
   # Allows you to run this workflow manually from the Actions tab
@@ -17,8 +17,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Run country-mac.sh script
+    - name: Make work.sh
+      run: cat base-mac.sh work-stub.sh > work.sh
+    - name: Run work.sh script
       run: |
-        chmod +x country-mac.sh
-        ./country-mac.sh
+        chmod +x work.sh
+        ./work.sh

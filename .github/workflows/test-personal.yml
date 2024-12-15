@@ -1,11 +1,11 @@
-name: Test city-mac.sh
+name: Test personal-stub.sh
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
     paths:
-    - city-mac.sh
+    - personal-stub.sh
     - base-mac.sh
 
   # Allows you to run this workflow manually from the Actions tab
@@ -17,8 +17,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Run city-mac.sh script
+    - name: Make personal.sh
+      run: cat base-mac.sh personal-stub.sh > personal.sh
+    - name: Run personal.sh script
       run: |
-        chmod +x city-mac.sh
-        ./city-mac.sh
+        chmod +x personal.sh
+        ./personal.sh

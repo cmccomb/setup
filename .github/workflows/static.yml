@@ -6,8 +6,8 @@ on:
   push:
     branches: ["main"]
     paths:
-    - country-mac.sh
-    - city-mac.sh
+    - personal-stub.sh
+    - work-stub.sh
     - base-mac.sh
 
   # Allows you to run this workflow manually from the Actions tab
@@ -35,6 +35,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Make personal.sh
+        run: cat base-mac.sh personal-stub.sh > personal.sh
+      - name: Make work.sh
+        run: cat base-mac.sh work-stub.sh > work.sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

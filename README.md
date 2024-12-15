@@ -6,10 +6,10 @@ This repo contains a heavily opinionated setup script for my Macs. To use this s
     
 If you're feeling pretty 💪⌨️, install this:
 ```bash
-sudo curl -s https://cmccomb.com/setup/city-mac.sh | bash
+sudo curl -s https://cmccomb.com/setup/work.sh | bash
 ```
 
 But if you're feeling more 🤠👾, install this:
 ```bash
-sudo curl -s https://cmccomb.com/setup/country-mac.sh | bash
+sudo curl -s https://cmccomb.com/setup/personal.sh | bash
 ```

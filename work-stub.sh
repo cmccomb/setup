@@ -1,8 +1,3 @@
-#!/usr/bin/env bash
-
-# Run the base to get functions
-sudo curl -s https://cmccomb.com/setup/city-mac.sh | bash
-
 # Run the functions that we want
 __mise_en_place
 __install_via_brew
