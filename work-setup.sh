@@ -1,7 +1,7 @@
 # Run the functions that we want
 __mise_en_place
-__install_via_brew
-__install_via_brew_for_work_too
+__install_brew_work
+__set_work_wallpaper
 __install_via_mas
 __install_via_mas_for_work_too
 __install_as_pwa

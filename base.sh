@@ -6,7 +6,7 @@
 
 function __mise_en_place() {
 
-	echo "Setting up your Mac..."
+	echo "Je fais la mise en place..."
 
 	# ✅ Prevent them from overriding settings we’re about to change
 	osascript -e 'tell application "System Preferences" to quit'
@@ -39,11 +39,11 @@ function __mise_en_place() {
 ###############################################################################
 
 function __install_brew() {
-	echo "Installing applications with Homebrew..."
+
+	echo "Installing Homebrew..."
 
 	if test ! "$(which brew)"; then
 		# ✅ Install Homebrew if not already present
-		echo "Installing Homebrew"
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 		# ✅ Add Homebrew to Path
@@ -57,22 +57,25 @@ function __install_brew() {
 	brew upgrade
 }
 
-function __install_via_brew() {
+function __install_brew_base() {
+
+	echo "Installing applications with Homebrew..."
 
   # ✅ Install Homebrew if needed
   __install_brew
 
-	# ✅ Install installation utilities
-	brew install mas dockutil
+	# ✅ Install installation and configuration utilities
+	brew install mas dockutil wallpaper
 
 	# ✅ Install utilities
 	brew install coreutils wget tree htop trash
 
-	# ✅ Cleanup
-	brew cleanup
 }
 
-function __install_via_brew_for_work_too() {
+function __install_brew_work() {
+
+  # ✅ Install Homebrew if needed as well as base tools
+  __install_brew_base
 
 	# ✅ Install Docker and associated tools
 	brew install --cask docker
@@ -92,6 +95,22 @@ function __install_via_brew_for_work_too() {
 
 	# ✅ Cleanup
 	brew cleanup
+
+}
+
+function __install_brew_personal() {
+
+  # ✅ Install Homebrew if needed as well as base tools
+  __install_brew_base
+
+  # ✅ Install EVE Launcher
+  brew install --cask eve-launcher
+
+  # ✅ Install League of Legends
+  brew install --cask league-of-legends
+
+  # ✅ Cleanup
+  brew cleanup
 
 }
 
@@ -120,20 +139,26 @@ function __mas_info_and_install() {
 
 # ✅ Function to uninstall an app only if it exists
 function __check_and_uninstall() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: uninstall_app_by_id <APP_ID>"
-    return 1
+  if is_icloud_signed_in; then
+
+    if [[ -z "$1" ]]; then
+      echo "Usage: uninstall_app_by_id <APP_ID>"
+      return 1
+    fi
+
+    local app_id=$1
+
+    if ! mas list | grep -q "$app_id"; then
+      echo "App with ID $app_id is not installed."
+      return 1
+    fi
+
+    echo "Uninstalling app with ID $app_id..."
+    mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
+  else
+    echo "iCloud is not signed in. Skipping uninstall."
   fi
 
-  local app_id=$1
-
-  if ! mas list | grep -q "$app_id"; then
-    echo "App with ID $app_id is not installed."
-    return 1
-  fi
-
-  echo "Uninstalling app with ID $app_id..."
-  mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
 }
 
 function __install_via_mas() {
@@ -349,7 +374,7 @@ function __energy() {
 
 function __screenshots() {
 
-	echo "Setting up screenshot parameters..."
+	echo "Setting screenshot parameters..."
 
 	# ✅ Save screenshots to the desktop
 	defaults write com.apple.screencapture location -string "${HOME}/Desktop"
@@ -417,6 +442,35 @@ function __more_ui() {
 	# Bottom right screen corner
 	defaults write com.apple.dock wvous-br-corner -int 0
 	defaults write com.apple.dock wvous-br-modifier -int 0
+
+}
+
+
+################################################################################
+############################# Wallpaper ########################################
+################################################################################
+
+function __set_work_wallpaper() {
+
+	echo "Customizing Wallpaper..."
+
+  # Get the wallpaper
+  wget https://unsplash.com/photos/ukzHlkoz1IE/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU3ODd8MA -O /tmp/wallpaper-work.jpg
+
+  # Set the wallpaper
+  wallpaper set /tmp/wallpaper-work.jpg
+
+}
+
+function __set_personal_wallpaper() {
+
+	echo "Customizing Wallpaper..."
+
+  # Get the wallpaper
+  wget https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg -O /tmp/wallpaper-personal.png
+
+  # Set the wallpaper
+  wallpaper set /tmp/wallpaper-personal.png
 
 }
 

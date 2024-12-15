@@ -1,6 +1,7 @@
 # Run the functions that we want
 __mise_en_place
-__install_via_brew
+__install_brew_personal
+__set_personal_wallpaper
 __install_via_mas
 __install_as_pwa
 __general_uiux
