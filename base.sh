@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 ###############################################################################
 ############################ Mise en place ####################################
@@ -61,8 +61,8 @@ function __install_brew_base() {
 
 	echo "Installing applications with Homebrew..."
 
-  # ✅ Install Homebrew if needed
-  __install_brew
+	# ✅ Install Homebrew if needed
+	__install_brew
 
 	# ✅ Install installation and configuration utilities
 	brew install mas dockutil wallpaper
@@ -74,8 +74,8 @@ function __install_brew_base() {
 
 function __install_brew_work() {
 
-  # ✅ Install Homebrew if needed as well as base tools
-  __install_brew_base
+	# ✅ Install Homebrew if needed as well as base tools
+	__install_brew_base
 
 	# ✅ Install Docker and associated tools
 	brew install --cask docker
@@ -89,10 +89,6 @@ function __install_brew_work() {
 	# ✅ Install collaboration
 	brew install --cask microsoft-teams zoom
 
-	# ✅ Install LLM stuff
-	brew install llama.cpp
-	brew install --cask jan
-
 	# ✅ Cleanup
 	brew cleanup
 
@@ -100,17 +96,17 @@ function __install_brew_work() {
 
 function __install_brew_personal() {
 
-  # ✅ Install Homebrew if needed as well as base tools
-  __install_brew_base
+	# ✅ Install Homebrew if needed as well as base tools
+	__install_brew_base
 
-  # ✅ Install EVE Launcher
-  brew install --cask eve-launcher
+	# ✅ Install EVE Launcher
+	brew install --cask eve-launcher
 
-  # ✅ Install League of Legends
-  brew install --cask league-of-legends
+	# ✅ Install League of Legends
+	brew install --cask league-of-legends
 
-  # ✅ Cleanup
-  brew cleanup
+	# ✅ Cleanup
+	brew cleanup
 
 }
 
@@ -120,48 +116,48 @@ function __install_brew_personal() {
 
 # ✅ Function to check if iCloud is signed in
 function __is_icloud_signed_in() {
-  if defaults read MobileMeAccounts | grep -q AccountID; then
-    return 0
-  else
-    return 1
-  fi
+	if defaults read MobileMeAccounts | grep -q AccountID; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 # ✅ Function to get more info and install an app from the App Store
 function __mas_info_and_install() {
-  if is_icloud_signed_in; then
-    mas info "$1"
-    mas install "$1"
-  else
-    echo "iCloud is not signed in. Skipping installation."
-  fi
+	if is_icloud_signed_in; then
+		mas info "$1"
+		mas install "$1"
+	else
+		echo "iCloud is not signed in. Skipping installation."
+	fi
 }
 
 # ✅ Function to uninstall an app only if it exists
 function __check_and_uninstall() {
-  if is_icloud_signed_in; then
+	if is_icloud_signed_in; then
 
-    if [[ -z "$1" ]]; then
-      echo "Usage: uninstall_app_by_id <APP_ID>"
-      return 1
-    fi
+		if [[ -z "$1" ]]; then
+			echo "Usage: uninstall_app_by_id <APP_ID>"
+			return 1
+		fi
 
-    local app_id=$1
+		local app_id=$1
 
-    if ! mas list | grep -q "$app_id"; then
-      echo "App with ID $app_id is not installed."
-      return 1
-    fi
+		if ! mas list | grep -q "$app_id"; then
+			echo "App with ID $app_id is not installed."
+			return 1
+		fi
 
-    echo "Uninstalling app with ID $app_id..."
-    mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
-  else
-    echo "iCloud is not signed in. Skipping uninstall."
-  fi
+		echo "Uninstalling app with ID $app_id..."
+		mas uninstall "$app_id" 2>/dev/null || echo "Failed to uninstall. Try removing manually."
+	else
+		echo "iCloud is not signed in. Skipping uninstall."
+	fi
 
 }
 
-function __install_via_mas() {
+function __install_mas_core() {
 
 	echo "Installing applications with the App Store..."
 
@@ -183,22 +179,33 @@ function __install_via_mas() {
 	# ✅ Install utilities
 	__mas_info_and_install 937984704 # Amphetamine
 
-	# ✅ Securely empty the trash
-	trash -y -s
-}
-
-function __install_via_mas_for_work_too() {
-
-	# ✅ Install developer tools
-	__mas_info_and_install 497799835 # Xcode
-
 	# ✅ Install document editing tools
 	__mas_info_and_install 462054704 # Microsoft Word
 	__mas_info_and_install 462058435 # Microsoft Excel
 	__mas_info_and_install 462062816 # Microsoft PowerPoint
 
+	# ✅ Securely empty the trash
+	trash -y -s
+}
+
+function __install_mas_work() {
+
+	__install_mas_core
+
+	# ✅ Install developer tools
+	__mas_info_and_install 497799835 # Xcode
+	sudo xcodebuild -license accept
+
 	# ✅ Install collaboration tools
 	__mas_info_and_install 803453959 # Slack
+
+	# ✅ Securely empty the trash
+	trash -y -s
+}
+
+function __install_mas_personal() {
+
+	__install_mas_core
 
 	# ✅ Securely empty the trash
 	trash -y -s
@@ -210,7 +217,7 @@ function __install_via_mas_for_work_too() {
 
 # ✅ Function to make a PWA
 function __make_pwa {
-  osascript <<EOF
+	osascript <<EOF
   tell application "Safari"
     activate
     open location "$1" -- The URL of the website you want to make a PWA of
@@ -233,18 +240,18 @@ keystroke return -- Hit "Enter" to confirm
 EOF
 }
 
-function __install_as_pwa() {
+function __install_pwa_core() {
 
 	echo "Installing applications as PWAs..."
 
 	# ✅ Install a GMail PWA
 	__make_pwa "https://mail.google.com/mail/u/0/#inbox"
 
-	# ✅ Close Safari
-	osascript -e 'tell application "Safari" to quit'
 }
 
-function __install_as_pwa_for_work_too() {
+function __install_pwa_work() {
+
+	__install_pwa_core
 
 	# ✅ Install a Google Calendar PWA
 	__make_pwa "https://calendar.google.com/calendar/u/0/r"
@@ -256,12 +263,70 @@ function __install_as_pwa_for_work_too() {
 	osascript -e 'tell application "Safari" to quit'
 }
 
+function install_pwa_personal() {
+
+	__install_pwa_core
+
+	# ✅ Close Safari
+	osascript -e 'tell application "Safari" to quit'
+}
+
+###############################################################################
+########################## Setup The Dock #####################################
+###############################################################################
+
+function __work_dock() {
+
+	echo "Customizing the Dock..."
+
+	# ✅ Remove all dock items
+	dockutil --remove all
+
+	# ✅ Add back apps in the order we care about
+	dockutil --add /System/Applications/System\ Settings.app --no-restart
+	dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
+	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
+	dockutil --add /System/Applications/Messages.app --no-restart
+	dockutil --add /Applications/Slack.app --no-restart
+	dockutil --add /System/Applications/Notes.app --no-restart
+	dockutil --add /System/Applications/Reminders.app --no-restart
+	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
+	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
+	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/ --no-restart
+
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
+
+}
+
+function __personal_dock() {
+
+	echo "Customizing the Dock..."
+
+	# ✅ Remove all dock items
+	dockutil --remove all
+
+	# ✅ Add back apps in the order we care about
+	dockutil --add /System/Applications/System\ Settings.app --no-restart
+	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
+	dockutil --add /System/Applications/Messages.app --no-restart
+	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
+
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+
+}
+
 ###############################################################################
 ############################### AI Stuff ######################################
 ###############################################################################
 
-function __ai_stuff() {
-	echo "Installing AI stuff..."
+function __install_ai_stack_core() {
+
+	echo "Installing AI stack..."
 
 	# ✅ Check if ChatGPT is already installed, and install if not
 	if [ ! -d "/Applications/ChatGPT.app" ]; then
@@ -279,11 +344,36 @@ function __ai_stuff() {
 		rm /tmp/ChatGPT.dmg
 	fi
 
+	# ✅ Install Jan
+	brew install --cask jan
+
+	# ✅ Install llama-cpp
+	brew install llama.cpp
+
+}
+
+function __install_ai_stack_personal() {
+
+	__install_ai_stack_core
+
 	# ✅ Install a few of my favorite local LLMs
 	llama-cli --hf-repo bartowski/Qwen2.5-0.5B-Instruct-GGUF --hf-file Qwen2.5-0.5B-Instruct-Q4_K_M.gguf
 	llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
 	llama-cli --hf-repo bartowski/Qwen2.5-3B-Instruct-GGUF --hf-file Qwen2.5-3B-Instruct-Q4_K_M.gguf
 	llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
+
+	#
+
+}
+
+function __install_ai_stack_work() {
+
+	__install_ai_stack_core
+
+	# ✅ Install a few of my favorite local LLMs
+	llama-cli --hf-repo bartowski/Qwen2.5-1.5B-Instruct-GGUF --hf-file Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
+	llama-cli --hf-repo bartowski/Qwen2.5-7B-Instruct-GGUF --hf-file Qwen2.5-7B-Instruct-Q4_K_M.gguf
+
 }
 
 ###############################################################################
@@ -445,7 +535,6 @@ function __more_ui() {
 
 }
 
-
 ################################################################################
 ############################# Wallpaper ########################################
 ################################################################################
@@ -454,11 +543,11 @@ function __set_work_wallpaper() {
 
 	echo "Customizing Wallpaper..."
 
-  # Get the wallpaper
-  wget https://unsplash.com/photos/ukzHlkoz1IE/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU3ODd8MA -O /tmp/wallpaper-work.jpg
+	# Get the wallpaper
+	wget https://unsplash.com/photos/ukzHlkoz1IE/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU3ODd8MA -O /tmp/wallpaper-work.jpg
 
-  # Set the wallpaper
-  wallpaper set /tmp/wallpaper-work.jpg
+	# Set the wallpaper
+	wallpaper set /tmp/wallpaper-work.jpg
 
 }
 
@@ -466,11 +555,11 @@ function __set_personal_wallpaper() {
 
 	echo "Customizing Wallpaper..."
 
-  # Get the wallpaper
-  wget https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg -O /tmp/wallpaper-personal.png
+	# Get the wallpaper
+	wget https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg -O /tmp/wallpaper-personal.png
 
-  # Set the wallpaper
-  wallpaper set /tmp/wallpaper-personal.png
+	# Set the wallpaper
+	wallpaper set /tmp/wallpaper-personal.png
 
 }
 
@@ -660,52 +749,19 @@ function __terminal() {
 }
 
 ###############################################################################
-########################## Setup The Dock #####################################
+################## Take care of stuff that is the same ########################
 ###############################################################################
 
-function __city_dock() {
-
-	echo "Customizing the Dock..."
-
-	# ✅ Remove all dock items
-	dockutil --remove all
-
-	# ✅ Add back apps in the order we care about
-	dockutil --add /System/Applications/System\ Settings.app --no-restart
-	dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
-	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
-	dockutil --add /System/Applications/Messages.app --no-restart
-	dockutil --add /Applications/Slack.app --no-restart
-	dockutil --add /System/Applications/Notes.app --no-restart
-	dockutil --add /System/Applications/Reminders.app --no-restart
-	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
-	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
-	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/ --no-restart
-
-	# ✅ Add links to desktop and Box
-	dockutil --add "/" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
-
+function __take_care_of_general_stuff() {
+	__general_uiux
+	__general_io
+	__energy
+	__screenshots
+	__more_ui
+	__finder
+	__safari
+	__textedit
+	__updates
+	__photos
+	__terminal
 }
-
-function __country_dock() {
-
-	echo "Customizing the Dock..."
-
-	# ✅ Remove all dock items
-	dockutil --remove all
-
-	# ✅ Add back apps in the order we care about
-	dockutil --add /System/Applications/System\ Settings.app --no-restart
-	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
-	dockutil --add /System/Applications/Messages.app --no-restart
-	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
-
-	# ✅ Add links to desktop and Box
-	dockutil --add "/" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
-
-}
-
