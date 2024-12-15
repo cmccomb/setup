@@ -275,7 +275,7 @@ function install_pwa_personal() {
 ########################## Setup The Dock #####################################
 ###############################################################################
 
-function __work_dock() {
+function __set_work_dock() {
 
 	echo "Customizing the Dock..."
 
@@ -301,7 +301,7 @@ function __work_dock() {
 
 }
 
-function __personal_dock() {
+function __set_personal_dock() {
 
 	echo "Customizing the Dock..."
 
