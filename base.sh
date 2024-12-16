@@ -537,15 +537,33 @@ function __more_ui() {
 ############################# Wallpaper ########################################
 ################################################################################
 
+function __set_wallpaper() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: __set_wallpaper <absolute_path_to_image>"
+    return 1
+  fi
+
+  local path="$1"
+
+  # Ensure the file exists
+  if [[ ! -f "$path" ]]; then
+    echo "Error: File not found at '$path'"
+    return 1
+  fi
+
+  # Run the osascript command with Finder
+  /usr/bin/osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$path"'"'
+}
+
 function __set_work_wallpaper() {
 
 	echo "Customizing Wallpaper..."
 
 	# Get the wallpaper
-	wget https://unsplash.com/photos/ukzHlkoz1IE/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU3ODd8MA -O /tmp/wallpaper-work.jpg
+	wget https://unsplash.com/photos/NFs6dRTBgaM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Z2VvbWV0cmljfGVufDB8MHx8fDE3MzQzODMyMDZ8MA -O /tmp/wallpaper-work.jpg
 
 	# Set the wallpaper
-	wallpaper set /tmp/wallpaper-work.jpg
+	__set_wallpaper /tmp/wallpaper-work.jpg
 
 }
 
@@ -557,7 +575,7 @@ function __set_personal_wallpaper() {
 	wget https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg -O /tmp/wallpaper-personal.png
 
 	# Set the wallpaper
-	wallpaper set /tmp/wallpaper-personal.png
+	__set_wallpaper /tmp/wallpaper-personal.png
 
 }
 
