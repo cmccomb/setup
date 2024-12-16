@@ -4,12 +4,12 @@
 
 This repo contains a heavily opinionated setup script for my Macs. To use this script, simply run:
     
-If you're feeling pretty 💪⌨️, install this:
+For work:
 ```bash
-sudo curl -s https://cmccomb.com/setup/work.sh | zsh
+zsh -i <(curl -s https://cmccomb.com/setup/work.sh)
 ```
 
-But if you're feeling more 🤠👾, install this:
+For play:
 ```bash
-sudo curl -s https://cmccomb.com/setup/personal.sh | zsh
+zsh -i <(curl -s https://cmccomb.com/setup/personal.sh)
 ```
