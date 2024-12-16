@@ -123,7 +123,7 @@ function __is_icloud_signed_in() {
 
 # ✅ Function to get more info and install an app from the App Store
 function __mas_info_and_install() {
-	if is_icloud_signed_in; then
+	if __is_icloud_signed_in; then
 		mas info "$1"
 		mas install "$1"
 	else
@@ -133,7 +133,7 @@ function __mas_info_and_install() {
 
 # ✅ Function to uninstall an app only if it exists
 function __check_and_uninstall() {
-	if is_icloud_signed_in; then
+	if __is_icloud_signed_in; then
 
 		if [[ -z "$1" ]]; then
 			echo "Usage: uninstall_app_by_id <APP_ID>"
