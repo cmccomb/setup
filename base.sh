@@ -42,15 +42,13 @@ function __install_brew() {
 
 	echo "Installing Homebrew..."
 
-	if test ! "$(which brew)"; then
-		# ✅ Install Homebrew if not already present
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # ✅ Install Homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-		# ✅ Add Homebrew to Path
-		echo >>/Users/"$USERNAME"/.zprofile
-		echo "eval '$(/opt/homebrew/bin/brew shellenv)'" >>/Users/work/.zprofile
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	fi
+  # ✅ Add Homebrew to Path
+  echo >>/Users/"$USERNAME"/.zprofile
+  echo "eval '$(/opt/homebrew/bin/brew shellenv)'" >>/Users/work/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
 	# ✅ Update Homebrew
 	brew update
