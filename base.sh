@@ -572,7 +572,7 @@ function __set_work_wallpaper() {
 	echo "Customizing Wallpaper..."
 
 	# Get the wallpaper
-	wget https://unsplash.com/photos/NFs6dRTBgaM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Z2VvbWV0cmljfGVufDB8MHx8fDE3MzQzODMyMDZ8MA -O /tmp/wallpaper-work.jpg
+	wget "https://unsplash.com/photos/NFs6dRTBgaM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Z2VvbWV0cmljfGVufDB8MHx8fDE3MzQzODMyMDZ8MA" -O /tmp/wallpaper-work.jpg
 
 	# Set the wallpaper
 	__set_wallpaper /tmp/wallpaper-work.jpg
@@ -584,7 +584,7 @@ function __set_personal_wallpaper() {
 	echo "Customizing Wallpaper..."
 
 	# Get the wallpaper
-	wget https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg -O /tmp/wallpaper-personal.png
+	wget "https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg" -O /tmp/wallpaper-personal.png
 
 	# Set the wallpaper
 	__set_wallpaper /tmp/wallpaper-personal.png
