@@ -292,6 +292,11 @@ function __set_work_dock() {
 	# ✅ Remove all dock items
 	dockutil --remove all
 
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder --no-restart
+
 	# ✅ Add back apps in the order we care about
 	dockutil --add /System/Applications/System\ Settings.app --no-restart
 	dockutil --add /System/Applications/Utilities/Terminal.app --no-restart
@@ -302,12 +307,7 @@ function __set_work_dock() {
 	dockutil --add /System/Applications/Reminders.app --no-restart
 	dockutil --add /Users/"$USER"/Applications/Calendar.app/ --no-restart
 	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
-	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/ --no-restart
-
-	# ✅ Add links to desktop and Box
-	dockutil --add "/" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Library/CloudStorage/Box-Box/" --view grid --display folder
+	dockutil --add /Users/"$USER"/Applications/Google\ Colab.app/
 
 }
 
@@ -316,17 +316,17 @@ function __set_personal_dock() {
 	echo "Customizing the Dock..."
 
 	# ✅ Remove all dock items
-	dockutil --remove all
+	dockutil --remove all --no-restart
+
+	# ✅ Add links to desktop and Box
+	dockutil --add "/" --view grid --display folder --no-restart
+	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
 
 	# ✅ Add back apps in the order we care about
 	dockutil --add /System/Applications/System\ Settings.app --no-restart
 	dockutil --add /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/ --no-restart
 	dockutil --add /System/Applications/Messages.app --no-restart
-	dockutil --add /Users/"$USER"/Applications/Gmail.app/ --no-restart
-
-	# ✅ Add links to desktop and Box
-	dockutil --add "/" --view grid --display folder --no-restart
-	dockutil --add "$HOME/Desktop" --view grid --display folder --no-restart
+	dockutil --add /Users/"$USER"/Applications/Gmail.app/
 
 }
 
