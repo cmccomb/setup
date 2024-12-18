@@ -566,7 +566,7 @@ function __set_wallpaper() {
   echo "Setting wallpaper to: $path"
 
   # Run the osascript command with Finder
-  sudo osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${path}\""
+  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${path}\""
 
 }
 
