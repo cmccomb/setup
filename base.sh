@@ -63,7 +63,7 @@ function __install_brew_base() {
 	__install_brew
 
 	# ✅ Install installation and configuration utilities
-	brew install mas dockutil wallpaper
+	brew install mas dockutil
 
 	# ✅ Install utilities
 	brew install coreutils wget tree htop trash
@@ -563,8 +563,11 @@ function __set_wallpaper() {
     return 1
   fi
 
+  echo "Setting wallpaper to: $path"
+
   # Run the osascript command with Finder
-  /usr/bin/osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$path"'"'
+  sudo osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${path}\""
+
 }
 
 function __set_work_wallpaper() {
@@ -572,10 +575,10 @@ function __set_work_wallpaper() {
 	echo "Customizing Wallpaper..."
 
 	# Get the wallpaper
-	wget "https://unsplash.com/photos/NFs6dRTBgaM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Z2VvbWV0cmljfGVufDB8MHx8fDE3MzQzODMyMDZ8MA" -O /tmp/wallpaper-work.jpg
+	wget "https://unsplash.com/photos/NFs6dRTBgaM/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Z2VvbWV0cmljfGVufDB8MHx8fDE3MzQzODMyMDZ8MA" -O "/tmp/wallpaper-work.jpg"
 
 	# Set the wallpaper
-	__set_wallpaper /tmp/wallpaper-work.jpg
+	__set_wallpaper "/tmp/wallpaper-work.jpg"
 
 }
 
