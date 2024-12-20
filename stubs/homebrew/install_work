@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+
+echo "Installing work applications with Homebrew..."
+
+# ✅ Install Docker and associated tools
+brew install --cask docker
+
+# ✅ Install code editing tools
+brew install --cask jetbrains-toolbox pycharm webstorm rustrover
+
+# ✅ Install file and project management
+brew install --cask box-drive github
+
+# ✅ Install collaboration
+brew install --cask microsoft-teams zoom
+
+# ✅ Cleanup
+brew cleanup

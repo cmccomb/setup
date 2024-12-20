@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+echo "Installing AI stack..."
+
+# ✅ Check if ChatGPT is already installed, and install if not
+if [ ! -d "/Applications/ChatGPT.app" ]; then
+    # Download the DMG file
+    curl -L -o /tmp/ChatGPT.dmg https://persistent.oaistatic.com/sidekick/public/ChatGPT.dmg
+
+    # Mount the DMG file
+    hdiutil attach /tmp/ChatGPT.dmg -nobrowse -quiet
+
+    # Copy the app to the Applications folder
+    cp -R /Volumes/ChatGPT\ Installer/ChatGPT.app /Applications/
+
+    # Unmount the DMG file and clean up
+    hdiutil detach /Volumes/ChatGPT -quiet
+    rm /tmp/ChatGPT.dmg
+fi
+
+# ✅ Install Jan
+brew install --cask jan
+
+# ✅ Install llama-cpp
+brew install llama.cpp

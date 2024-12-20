@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+echo "Installing useful applications with the App Store..."
+
+# ✅ Install developer tools
+mas install 497799835 # Xcode
+
+# ✅ Install collaboration tools
+mas install 803453959 # Slack

@@ -1,0 +1,6 @@
+#!/bin/bash/env zsh
+
+echo "Customizing TextEdit..."
+
+# ✅ Use plain text mode for new TextEdit documents
+defaults write com.apple.TextEdit RichText -int 0

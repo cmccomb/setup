@@ -1,12 +1,9 @@
-name: Test personal.sh
+name: Test play.sh
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-    paths:
-    - personal-setup.sh
-    - base.sh
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,7 +14,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Make personal.sh
-      run: zsh build.sh
-    - name: Run personal.sh script
-      run: zsh personal.sh
+    - name: Make play.sh
+      run: sh build.sh
+    - name: Run play.sh script
+      run: zsh play.sh

@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# ✅ Close Safari
+osascript -e 'tell application "Safari" to quit'

@@ -1,0 +1,9 @@
+#! /bin/bash/env zsh
+
+echo "Customizing Wallpaper..."
+
+# Get the wallpaper
+wget "https://unsplash.com/photos/buymYm3RQ3U/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fG5lb24lMjBzaWduJTIwd2FsbHBhcGVyfGVufDB8MHx8fDE3MzQyMzU4MDl8Mg" -O /tmp/wallpaper-personal.png
+
+# Set the wallpaper
+__set_wallpaper /tmp/wallpaper-personal.png

@@ -1,0 +1,20 @@
+#!/bin/bash/env zsh
+
+echo "Setting up energy saving parameters..."
+
+# Disable machine sleep while charging
+sudo pmset -c displaysleep 60
+sudo pmset -c sleep 0
+
+# Set sleep when on battery
+sudo pmset -b displaysleep 10
+sudo pmset -b sleep 60
+
+# Enable lid wakeup
+sudo pmset -a lidwake 1
+
+# Restart automatically on power loss
+sudo pmset -a autorestart 1
+
+# Set standby delay to 24 hours (default is 1 hour)
+sudo pmset -a standbydelay 86400

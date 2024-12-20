@@ -1,0 +1,18 @@
+#! /bin/bash/env zsh
+
+echo "Customizing Update Schedules"
+
+# ✅ Download automatically
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool TRUE
+
+# ✅ Install MacOS Updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool TRUE
+
+# ✅ Install Config Data
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool TRUE
+
+# ✅ Install critical updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool TRUE
+
+# ✅ Turn on app auto-update
+sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool TRUE

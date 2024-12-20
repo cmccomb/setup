@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+echo "Installing CLI applications with Homebrew..."
+
+# ✅ Install installation and configuration utilities
+brew install mas dockutil
+
+# ✅ Install utilities
+brew install coreutils wget tree htop trash

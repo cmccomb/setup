@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+function __set_wallpaper() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: __set_wallpaper <absolute_path_to_image>"
+    return 1
+  fi
+
+  local path="$1"
+
+  # Ensure the file exists
+  if [[ ! -f "$path" ]]; then
+    echo "Error: File not found at '$path'"
+    return 1
+  fi
+
+  echo "Setting wallpaper to: $path"
+
+  # Run the osascript command with Finder
+  osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${path}\""
+
+}

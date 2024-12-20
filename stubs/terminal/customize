@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+echo "Customizing Terminal..."
+
+# ✅ Make a new settings file
+defaults write com.apple.Terminal "Window Settings" -dict-add "Chris" '
+{
+    CommandString = "";
+    FontAntialias = 1;
+    FontWidthSpacing = "1.004032258064516";
+    ProfileCurrentVersion = "2.07";
+    RunCommandAsShell = 1;
+    name = Chris;
+    shellExitAction = 0;
+    type = "Window Settings";
+}'
+
+# ✅ Make the Chris profile the default
+defaults write com.apple.Terminal "Default Window Settings" "Chris"

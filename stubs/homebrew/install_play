@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+echo "Installing GUI applications with Homebrew..."
+

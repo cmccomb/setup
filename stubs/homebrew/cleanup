@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+echo "Cleaning up Homebrew..."
+
+# ✅ Cleanup
+brew cleanup
