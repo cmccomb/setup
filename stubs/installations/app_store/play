@@ -4,5 +4,4 @@
 if [[ $IS_ICLOUD_SIGNED_IN == false ]]; then
   echo "iCloud is not signed in. Skipping App Store installations."
 else
-  echo "Installing fun applications..."
 fi
