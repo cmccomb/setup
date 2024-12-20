@@ -15,6 +15,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Make play.sh
-      run: sh build.sh
+      run: |
+        sh build.sh
+        pwd
+        ls
+        ls scripts
     - name: Run play.sh script
       run: zsh scripts/play.sh

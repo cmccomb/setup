@@ -6,10 +6,10 @@ This repo contains a heavily opinionated setup script for my Macs. To use this s
     
 For work:
 ```bash
-zsh -i <(curl -s https://cmccomb.com/setup/work.sh)
+zsh -i <(curl -s https://cmccomb.com/setup/work.zsh)
 ```
 
 For play:
 ```bash
-zsh -i <(curl -s https://cmccomb.com/setup/play.sh)
+zsh -i <(curl -s https://cmccomb.com/setup/play.zsh)
 ```

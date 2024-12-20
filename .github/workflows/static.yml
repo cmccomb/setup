@@ -33,8 +33,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Make scripts to serve
         run: |
-          pwd
-          ls
           source build.sh
 #      - name: setup git config
 #        run: |
@@ -47,8 +45,6 @@ jobs:
 #          git push
       - name: Cleanup for pages
         run: |
-          pwd
-          ls
           rm -rf stubs
           mv scripts/* .
           rm -rf scripts
