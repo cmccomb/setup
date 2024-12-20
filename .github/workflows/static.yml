@@ -32,7 +32,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Make scripts to serve
-        run: source build.sh
+        run: |
+          pwd
+          source build.sh
+          pwd
 #      - name: setup git config
 #        run: |
 #          git config user.name "GitHub Actions Bot"
@@ -42,11 +45,12 @@ jobs:
 #          git add -A
 #          git commit -m "New scripts"
 #          git push
-#      - name: Cleanup for pages
-#        run: |
-#          rm -rf stubs; mv scripts/* .
-#          rm -rf scripts
-#          rm build.sh rm README.md .gitignore
+      - name: Cleanup for pages
+        run: |
+          pwd
+          rm -rf stubs; mv scripts/* .
+          rm -rf scripts
+          rm build.sh rm README.md .gitignore
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
