@@ -32,17 +32,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Make scripts to serve
+        run: sh source build.sh
+      - name: setup git config
         run: |
-          source build.sh
-#      - name: setup git config
-#        run: |
-#          git config user.name "GitHub Actions Bot"
-#          git config user.email "<>"
-#      - name: commit
-#        run: |
-#          git add -A
-#          git commit -m "New scripts"
-#          git push
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: commit
+        run: |
+          git add -A
+          git commit -m "New scripts"
+          git push
       - name: Cleanup for pages
         run: |
           rm -rf stubs
