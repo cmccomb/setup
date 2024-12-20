@@ -1,4 +1,4 @@
-name: Test work.zsh
+name: work.zsh
 
 on:
   # Runs on pushes targeting the default branch
