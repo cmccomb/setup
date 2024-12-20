@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Check if variable IS_ICLOUD_SIGNED_IN is true
-if [[ $IS_ICLOUD_SIGNED_IN == false ]]; then
+if $IS_ICLOUD_SIGNED_IN == 1; then
   echo "iCloud is not signed in. Skipping App Store installations."
 else
   echo ""
