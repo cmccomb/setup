@@ -49,9 +49,12 @@ jobs:
         run: |
           pwd
           ls
-          rm -rf stubs; mv scripts/* .
+          rm -rf stubs
+          mv scripts/* .
           rm -rf scripts
-          rm build.sh rm README.md .gitignore
+          rm build.sh
+          rm README.md
+          rm .gitignore
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
