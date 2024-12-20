@@ -74,3 +74,5 @@ cat \
 
 # Remove subsequent shebangs from work stack
 remove_extra_shebangs ../scripts/work.zsh
+
+cd .. || exit 1;
