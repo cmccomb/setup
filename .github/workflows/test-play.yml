@@ -1,4 +1,4 @@
-name: Test play.sh
+name: Test play.zsh
 
 on:
   # Runs on pushes targeting the default branch
@@ -14,11 +14,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Make play.sh
+    - name: Make play.zsh
       run: sh build.sh
-    - name: Run play.sh script
-      run: |
-        pwd
-        ls
-        ls scripts
-        zsh scripts/play.sh
+    - name: Run play.zsh script
+      run: zsh scripts/play.zsh

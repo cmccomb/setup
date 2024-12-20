@@ -1,6 +1,6 @@
 # Setup your mac, my way
-[![Test work.sh](https://github.com/cmccomb/setup/actions/workflows/test-work.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-work.yml)
-[![Test play.sh](https://github.com/cmccomb/setup/actions/workflows/test-play.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-play.yml)
+[![Test work.zsh](https://github.com/cmccomb/setup/actions/workflows/test-work.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-work.yml)
+[![Test play.zsh](https://github.com/cmccomb/setup/actions/workflows/test-play.yml/badge.svg)](https://github.com/cmccomb/setup/actions/workflows/test-play.yml)
 
 This repo contains a heavily opinionated setup script for my Macs. To use this script, simply run:
     

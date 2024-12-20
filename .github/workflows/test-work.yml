@@ -1,4 +1,4 @@
-name: Test work.sh
+name: Test work.zsh
 
 on:
   # Runs on pushes targeting the default branch
@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Make work.sh
+    - name: Make work.zsh
       run: sh build.sh
-    - name: Run work.sh script
-      run: zsh scripts/work.sh
+    - name: Run work.zsh script
+      run: zsh scripts/work.zsh
