@@ -46,7 +46,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "<>"
-          git add 'scripts/*'
+          git add 'scripts'
           git commit -am "Scripts built for deployment"
           git push
       - name: Cleanup for pages
