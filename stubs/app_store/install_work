@@ -2,8 +2,16 @@
 
 echo "Installing useful applications with the App Store..."
 
-# ✅ Install developer tools
-mas install 497799835 # Xcode
+# Check if variable IS_ICLOUD_SIGNED_IN is true
+if [[ $IS_ICLOUD_SIGNED_IN == false ]]; then
+  echo "iCloud is not signed in. Skipping App Store installations."
+else
 
-# ✅ Install collaboration tools
-mas install 803453959 # Slack
+  echo "Installing useful applications..."
+
+  # ✅ Install developer tools
+  mas install 497799835 # Xcode
+
+  # ✅ Install collaboration tools
+  mas install 803453959 # Slack
+fi

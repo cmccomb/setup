@@ -2,13 +2,18 @@
 
 echo "Installing base applications with the App Store..."
 
-# ✅ Install collaboration tools
-mas install 310633997 # WhatsApp
+# Check if variable IS_ICLOUD_SIGNED_IN is true
+if [[ $IS_ICLOUD_SIGNED_IN == false ]]; then
+  echo "iCloud is not signed in. Skipping App Store installations."
+else
+  # ✅ Install collaboration tools
+  mas install 310633997 # WhatsApp
 
-# ✅ Install utilities
-mas install 937984704 # Amphetamine
+  # ✅ Install utilities
+  mas install 937984704 # Amphetamine
 
-# ✅ Install document editing tools
-mas install 462054704 # Microsoft Word
-mas install 462058435 # Microsoft Excel
-mas install 462062816 # Microsoft PowerPoint
+  # ✅ Install document editing tools
+  mas install 462054704 # Microsoft Word
+  mas install 462058435 # Microsoft Excel
+  mas install 462062816 # Microsoft PowerPoint
+fi

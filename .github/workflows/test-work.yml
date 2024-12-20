@@ -17,4 +17,4 @@ jobs:
     - name: Make work.sh
       run: sh build.sh
     - name: Run work.sh script
-      run: zsh work.sh
+      run: zsh scripts/work.sh

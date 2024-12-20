@@ -34,10 +34,10 @@ cat \
   energy/customize \
   io/customize \
   oh_my_zsh/install \
-  > ../play.zsh
+  > ../scripts/play.zsh
 
 # Remove subsequent shebangs from play stack
-remove_extra_shebangs ../play.zsh
+remove_extra_shebangs ../scripts/play.zsh
 
 # Build the work stack
 cat \
@@ -66,7 +66,7 @@ cat \
   energy/customize \
   io/customize \
   oh_my_zsh/install \
-  > ../work.zsh
+  > ../scripts/work.zsh
 
 # Remove subsequent shebangs from work stack
-remove_extra_shebangs ../work.zsh
+remove_extra_shebangs ../scripts/work.zsh

@@ -17,4 +17,4 @@ jobs:
     - name: Make play.sh
       run: sh build.sh
     - name: Run play.sh script
-      run: zsh play.sh
+      run: zsh scripts/play.sh
