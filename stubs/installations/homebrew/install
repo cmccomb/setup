@@ -6,7 +6,7 @@ echo "Installing Homebrew..."
 yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # ✅ Add Homebrew to Path
-echo >>/Users/"$USERNAME"/.zprofile
+echo >>/Users/"$USER"/.zprofile
 echo "eval '$(/opt/homebrew/bin/brew shellenv)'" >>/Users/work/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 

@@ -6,7 +6,7 @@ echo "Setting up general UI/UX..."
 sudo nvram StartupMute=%01
 
 # ✅ Show the battery percentage in the menubar
-sudo -u "$USERNAME" defaults write /Users/"$USERNAME"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
+sudo -u "$USER" defaults write /Users/"$USER"/Library/Preferences/ByHost/com.apple.controlcenter.plist BatteryShowPercentage -bool true
 
 # ✅ Always show scrollbars (`WhenScrolling`, `Automatic` and `Always`)
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"

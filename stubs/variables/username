@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-echo "Saving the username for later use..."
-
-# ✅ Save the username for later use
-USERNAME=$(id -un)
-export USERNAME

@@ -15,31 +15,34 @@ remove_extra_shebangs() {
 
 # Build the play stack
 cat \
-  check/icloud_is_signed_in \
-  check/system_preferences_is_closed \
-  variables/username \
-  xcode/install_developer_tools \
-  homebrew/install \
-  homebrew/install_base \
-  homebrew/install_work \
-  homebrew/cleanup \
-  app_store/install_base \
-  app_store/install_play \
-  web_apps/base \
-  web_apps/install_work \
-  web_apps/cleanup \
-  wallpaper/base \
-  wallpaper/work \
-  terminal/customize \
-  textedit/customize \
-  updates/customize \
-  safari/customize \
-  finder/customize \
-  ui/customize \
-  screenshots/customize \
-  energy/customize \
-  io/customize \
-  oh_my_zsh/install \
+  system/check/icloud_is_signed_in \
+  system/check/system_preferences_is_closed \
+  installations/developer_tools/install \
+  installations/homebrew/install \
+  installations/homebrew/base \
+  installations/homebrew/work \
+  installations/homebrew/cleanup \
+  installations/app_store/base \
+  installations/app_store/play \
+  installations/web_apps/base \
+  installations/web_apps/work \
+  installations/web_apps/cleanup \
+  installations/ai/base \
+  installations/ai/play \
+  customizations/terminal/base \
+  customizations/textedit/base \
+  customizations/photos/base \
+  customizations/safari/base \
+  system/updates/base \
+  system/screenshots/base \
+  system/energy/base \
+  system/io/base \
+  interface/ui/base \
+  interface/wallpaper/base \
+  interface/wallpaper/play \
+  interface/dock/play \
+  interface/finder/base \
+  installations/oh_my_zsh/install \
   > ../scripts/play.zsh
 
 # Remove subsequent shebangs from play stack
@@ -47,31 +50,34 @@ remove_extra_shebangs ../scripts/play.zsh
 
 # Build the work stack
 cat \
-  check/icloud_is_signed_in \
-  check/system_preferences_is_closed \
-  variables/username \
-  xcode/install_developer_tools \
-  homebrew/install \
-  homebrew/install_base \
-  homebrew/install_play \
-  homebrew/cleanup \
-  app_store/install_base \
-  app_store/install_work \
-  web_apps/base \
-  web_apps/install_play \
-  web_apps/cleanup \
-  wallpaper/base \
-  wallpaper/play \
-  terminal/customize \
-  textedit/customize \
-  updates/customize \
-  safari/customize \
-  finder/customize \
-  ui/customize \
-  screenshots/customize \
-  energy/customize \
-  io/customize \
-  oh_my_zsh/install \
+  system/check/icloud_is_signed_in \
+  system/check/system_preferences_is_closed \
+  installations/developer_tools/install \
+  installations/homebrew/install \
+  installations/homebrew/base \
+  installations/homebrew/work \
+  installations/homebrew/cleanup \
+  installations/app_store/base \
+  installations/app_store/work \
+  installations/web_apps/base \
+  installations/web_apps/play \
+  installations/web_apps/cleanup \
+  installations/ai/base \
+  installations/ai/play \
+  customizations/photos/base \
+  customizations/terminal/base \
+  customizations/textedit/base \
+  customizations/safari/base \
+  system/updates/base \
+  system/screenshots/base \
+  system/energy/base \
+  system/io/base \
+  interface/ui/base \
+  interface/wallpaper/base \
+  interface/wallpaper/play \
+  interface/dock/work \
+  interface/finder/base \
+  installations/oh_my_zsh/install \
   > ../scripts/work.zsh
 
 # Remove subsequent shebangs from work stack
