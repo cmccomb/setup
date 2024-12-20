@@ -10,8 +10,7 @@ if defaults read MobileMeAccounts | grep -q AccountID; then
 else
   echo "iCloud is not signed in. Some parts of the scripts will not be completed."
   # Set variable to indicate icloud is signed in
+  # shellcheck disable=SC2034
   ICLOUD_IS_SIGNED_IN=false
 
 fi
-
-export ICLOUD_IS_SIGNED_IN
