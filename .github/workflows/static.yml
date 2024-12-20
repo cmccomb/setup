@@ -34,7 +34,7 @@ jobs:
       - name: Make scripts to serve
         run: source build.sh
       - name: Commit changes
-        run: git commit -am "Scripts constructed"
+        run:  git config --global user.email "ccmcc2012@gmail.com"; git config --global user.name "Chris McComb"; git commit -am "Scripts constructed"
       - name: Cleanup for pages
         run: rm -rf stubs; mv scripts/* .; rm -rf scripts; rm build.sh rm README.md .gitignore;
       - name: Setup Pages
