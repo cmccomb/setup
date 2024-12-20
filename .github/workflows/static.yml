@@ -42,11 +42,11 @@ jobs:
 #          git add -A
 #          git commit -m "New scripts"
 #          git push
-      - name: Cleanup for pages
-        run: |
-          rm -rf stubs; mv scripts/* .
-          rm -rf scripts
-          rm build.sh rm README.md .gitignore
+#      - name: Cleanup for pages
+#        run: |
+#          rm -rf stubs; mv scripts/* .
+#          rm -rf scripts
+#          rm build.sh rm README.md .gitignore
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
