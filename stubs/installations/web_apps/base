@@ -4,7 +4,7 @@ heading "Installing web apps..."
 
 # ✅ Function to make a PWA
 function __make_pwa {
-  user/bin/osascript <<EOF
+  /usr/bin/osascript <<EOF
   tell application "Safari"
     activate
     open location "$1" -- The URL of the website you want to make a PWA of
@@ -15,7 +15,7 @@ EOF
   echo "Press [Enter] to continue once you have logged in..."
   read -r
 
-  user/bin/osascript <<EOF
+  /usr/bin/osascript <<EOF
   tell application "Safari"
     activate
   end tell
