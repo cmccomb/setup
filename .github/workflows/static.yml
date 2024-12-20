@@ -35,11 +35,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Make scripts to serve
-        run: sh build.sh
+        run: |
+          ls
+          ls scripts
+          sh build.sh
       - name: Check git status
         run: |
           ls scripts
-          git status
+          git status scripts
       - name: Commit and push to repo
         run: |
           git config --global user.name "GitHub Actions"
