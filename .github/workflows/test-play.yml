@@ -12,11 +12,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-#    - name: Checkout repository
-#      uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: Make play.zsh
-      run: |
-        ls 
-        sh build.sh
+      run: sh build.sh
     - name: Run play.zsh script
       run: zsh scripts/play.zsh
