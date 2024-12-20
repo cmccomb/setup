@@ -34,21 +34,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
       - name: Make scripts
         run: sh build.sh
-      - name: Set up git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "<>"
-      - name: Commit and push to repo
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: |
-          git add --all
-          git commit -am "Scripts built for deployment"
-          git push
+#      - name: Set up git
+#        run: |
+#          git config --global user.name "GitHub Actions"
+#          git config --global user.email "ccmcc2012@gmail.com"
+#      - name: Commit and push to repo
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+#        run: |
+#          git add --all
+#          git commit -am "Scripts built for deployment"
+#          git push
       - name: Cleanup for pages
         run: |
           mv stubs/* .
