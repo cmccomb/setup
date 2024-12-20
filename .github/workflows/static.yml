@@ -5,6 +5,9 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths-ignore:
+      - ".github/workflows/test-work.yml"
+      - ".github/workflows/test-play.yml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,7 +37,9 @@ jobs:
       - name: Make scripts to serve
         run: sh build.sh
       - name: Check git status
-        run: git status
+        run: |
+          ls scripts
+          git status
       - name: Commit and push to repo
         run: |
           git config --global user.name "GitHub Actions"
