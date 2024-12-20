@@ -1,9 +1,11 @@
 #!/usr/bin/env sh
 
-#
-mkdir scripts; touch scripts/play.zsh scripts/work.zsh;
+# Make a place to put the scripts after we build them
+rm -rf scripts || true;
+mkdir scripts;
+touch scripts/play.zsh scripts/work.zsh;
 
-#
+# Go to the stubs directory
 cd stubs || exit 1;
 
 # Function to remove subsequent shebangs
