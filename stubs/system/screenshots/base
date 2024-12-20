@@ -1,6 +1,6 @@
 #!/bin/bash/env zsh
 
-echo "Setting screenshot parameters..."
+heading "Setting screenshot parameters..."
 
 # ✅ Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"

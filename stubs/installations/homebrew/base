@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Installing CLI applications with Homebrew..."
+heading "Installing applications with Homebrew..."
 
 # ✅ Install installation and configuration utilities
 brew install mas dockutil

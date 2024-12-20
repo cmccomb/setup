@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Setting up general UI/UX..."
+heading "Setting up general UI/UX..."
 
 # ✅ Disable the sound effects on boot
 sudo nvram StartupMute=%01

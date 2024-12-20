@@ -1,6 +1,6 @@
 #! /bin/bash/env zsh
 
-echo "Customizing Safari..."
+heading "Customizing Safari..."
 
 # Privacy: don’t send search queries to Apple
 sudo defaults write com.apple.Safari UniversalSearchEnabled -bool false

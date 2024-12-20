@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Installing AI stack..."
+heading "Installing AI stack..."
 
 # ✅ Check if ChatGPT is already installed, and install if not
 if [ ! -d "/Applications/ChatGPT.app" ]; then

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Installing base web apps..."
+heading "Installing web apps..."
 
 # ✅ Function to make a PWA
 function __make_pwa {

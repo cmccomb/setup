@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Customizing Terminal..."
+heading "Customizing Terminal..."
 
 # ✅ Make a new settings file
 defaults write com.apple.Terminal "Window Settings" -dict-add "Chris" '

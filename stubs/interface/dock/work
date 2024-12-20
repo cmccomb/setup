@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Customizing the Dock..."
+heading "Customizing the Dock..."
 
 # ✅ Remove all dock items
 dockutil --remove all

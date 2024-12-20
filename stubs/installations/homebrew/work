@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-echo "Installing work applications with Homebrew..."
-
 # ✅ Install Docker and associated tools
 brew install --cask docker
 

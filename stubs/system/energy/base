@@ -1,6 +1,6 @@
 #!/bin/bash/env zsh
 
-echo "Setting up energy saving parameters..."
+heading "Setting up energy saving parameters..."
 
 # Disable machine sleep while charging
 sudo pmset -c displaysleep 60

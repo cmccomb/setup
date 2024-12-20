@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-echo "Checking if iCloud is signed in..."
+heading "Checking if iCloud is signed in..."
 
 # ✅ Check if iCloud is signed in and exit if it’s not
 if defaults read MobileMeAccounts | grep -q AccountID; then
