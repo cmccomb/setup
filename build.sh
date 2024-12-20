@@ -1,13 +1,15 @@
 #!/usr/bin/env sh
 
+#
+mkdir scripts; touch scripts/play.zsh scripts/work.zsh;
+
+#
 cd stubs || exit 1;
 
 # Function to remove subsequent shebangs
 remove_extra_shebangs() {
   sed -i '' '1!{/^#!/d;}' "$1"
 }
-
-mkdir scripts; touch scripts/play.zsh scripts/work.zsh;
 
 # Build the play stack
 cat \
